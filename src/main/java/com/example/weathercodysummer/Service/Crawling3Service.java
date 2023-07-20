@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class Crawling3Service {//새끼가 아니라 씹새끼 크롤러인데
+public class Crawling3Service {
+    //새끼가 아니라 씹새끼 크롤러인데
 
     final String url = "https://slowsteadyclub.com/docu/list.html?cate_no=509";
 
@@ -31,7 +32,6 @@ public class Crawling3Service {//새끼가 아니라 씹새끼 크롤러인데
                 Element element1 = a2.get(i);
                 String attr = element1.attr("href");
                 arr.add("https://slowsteadyclub.com"+attr);
-
             }
             System.out.println(arr.size());
             for (int j=0; j<arr.size(); j++) {
@@ -43,8 +43,7 @@ public class Crawling3Service {//새끼가 아니라 씹새끼 크롤러인데
                 for (int k=0; k<zz.size(); k++) {
                     Element element2 = zz.get(k);
                     String attr = element2.attr("src");
-                    arr2.add(attr);
-
+                    arr2.add("https:" + attr);
                 }
             }
 
