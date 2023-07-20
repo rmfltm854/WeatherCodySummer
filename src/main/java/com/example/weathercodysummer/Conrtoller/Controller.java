@@ -28,4 +28,10 @@ public class Controller {
     }
 
 
+    @GetMapping("/Main")
+    public String mainPage(){
+        return "product3madeByJms";
+    }
+
+
 }
