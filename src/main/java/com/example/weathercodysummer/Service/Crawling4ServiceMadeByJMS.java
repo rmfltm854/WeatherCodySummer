@@ -52,7 +52,8 @@ public class Crawling4ServiceMadeByJMS {//웹페이지 slowsteadyclub 크롤러
                     String subImage = imgTag.attr("src"); // imgTag안의 src의 주소를 찾음
                     h++;
                     System.out.println(h);
-                    subImageList.add(subImage); // 서브 이미지를 리스트에 담음
+                    subImageList.add("https:" + subImage); // 서브 이미지를 리스트에 담음
+
                 }
 
                 resultMap.put(hrefOfMainImageList.get(i),subImageList);//이렇게바꾸면 배열안에 [{부모사진,[자식사진1,2,3,4..]}] 이런식으로 들어가서 나중에 db 넣을때편하게 할수있음
