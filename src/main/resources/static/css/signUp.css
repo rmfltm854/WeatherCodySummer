@@ -185,14 +185,14 @@ label {
 input {
     border: 1px solid #d1d1d1;
     color: #ababab;
-    display: block;
+    display:block;
     line-height: 24px;
     margin: 8px 0;
     padding: 16px 24px;
     width: 100%;
 }
 
-.log-but {
+.sign-but {
     background-color: #2c2c2c;
     border: none;
     color: #ffffff;
@@ -205,36 +205,16 @@ input {
 }
 
 
-.login{
+.signUp{
     margin: 20px auto;
     width: 360px;
 
 }
 
-.login-title{
+.signUp-title{
     font-size: 36px;
     font-weight: 700;
     margin: 24px 0;
     color: #4e4e4e;
     text-align: center;
-}
-
-.login-forgot{
-    text-align: right;
-}
-
-.login-forgot-link{
-    font-size: 14px;
-    font-weight: 400;
-    color: #ababab;
-}
-
-.login-signup{
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
-}
-
-.login-signup-link{
-    color: #2c2c2c;
 }
