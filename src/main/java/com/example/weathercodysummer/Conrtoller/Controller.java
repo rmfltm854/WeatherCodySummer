@@ -33,5 +33,15 @@ public class Controller {//윤서 등장
         return "product3madeByJms";
     }
 
+    @GetMapping("/Login")
+    public String loginPage(){
+        return "login";
+    }
+
+    @GetMapping("/SignUp")
+    public String signUp(){
+        return "signUp";
+    }
+
 
 }
