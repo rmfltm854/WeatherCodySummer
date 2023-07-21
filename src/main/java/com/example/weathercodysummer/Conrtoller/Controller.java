@@ -19,7 +19,7 @@ public class Controller {//윤서 등장
 
     Crawling4Service service4 = new Crawling4Service();
     Crawling4ServiceMadeByJMS jms = new Crawling4ServiceMadeByJMS();
-    @GetMapping("/crawler")
+    @GetMapping("/crawling")
     @ResponseBody
     public List<HashMap<String,List<String>>> Test(){
 //        List<String> list = service4.main5();
