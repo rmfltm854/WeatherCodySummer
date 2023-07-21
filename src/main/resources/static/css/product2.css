@@ -1,6 +1,12 @@
 * {
     box-sizing: border-box;
 }
+
+html {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
   
 body {
     background-color: #ffffff;
@@ -9,7 +15,7 @@ body {
 
 .weatherWidget {
     width: 100%;
-    height: 68px;
+    height: 66px;
 }
  
 nav {
@@ -32,6 +38,16 @@ nav {
     left:20px;
 }
 
+input {
+    border: 1px solid #d1d1d1;
+    color: #ababab;
+    display: block;
+    line-height: 24px;
+    margin: 8px 0;
+    padding: 16px 24px;
+    width: 100%;
+}
+
 .search-bar{
     display: flex;
     height: 60px;
@@ -47,6 +63,7 @@ nav {
     width: 350px;
     height: 40px;
     font-size: 17px;
+    margin: 10px;
 
 
 }
