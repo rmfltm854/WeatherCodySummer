@@ -13,7 +13,6 @@ import java.util.List;
 
 @Service
 public class Crawling3Service {
-    //새끼가 아니라 씹새끼 크롤러인데
 
     final String url = "https://slowsteadyclub.com/docu/list.html?cate_no=509";
 

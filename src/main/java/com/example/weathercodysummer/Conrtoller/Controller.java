@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @org.springframework.stereotype.Controller
-public class Controller {
+public class Controller {//윤서 등장
 
     Crawling2Service service2 = new Crawling2Service();
     Crawling3Service service3 = new Crawling3Service();
