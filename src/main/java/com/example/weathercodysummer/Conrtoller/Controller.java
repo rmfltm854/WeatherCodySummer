@@ -38,6 +38,8 @@ public class Controller {//윤서 등장
         return "login";
     }
 
+
+    //hello
     @GetMapping("/SignUp")
     public String signUp(){
         return "signUp";
