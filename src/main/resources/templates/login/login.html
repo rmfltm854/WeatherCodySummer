@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>WeatherCody</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- 민수꺼 -->
+<div class="weatherWidget">
+    <div  id="ww_ef7067e45137d" v='1.3' loc='id' a='{"t":"responsive","lang":"ko","sl_lpl":1,"ids":["wl7405"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","cl_odd":"#00000000"}'>Weather for the Following Location: <a href="https://2ua.org/de/kor/gimhae/karte/" id="ww_ef7067e45137d_u" target="_blank">Gimhae karte</a></div><script async src="https://app1.weatherwidget.org/js/?id=ww_ef7067e45137d"></script>
+</div>
+<!-- 여기까지 -->
+<nav>
+    <img class="logo" src="/image/logo.png.png">
+    <form class="search-bar" role="search">
+        <input class="search-bar2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn" type="submit">Search</button>
+    </form>
+    <div class = "rank"> 랭킹
+        <span class="chart-change up">▲</span>
+    </div>
+</nav>
+
+<div class="navnav">
+    <ul class="menu">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">로그인</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">마이페이지</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">남성</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">여성</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">고객센터</a>
+        </li>
+    </ul>
+</div>
+<main>
+    <aside>
+        <div class="side_box">CATEGORT
+            <ul class="brand">
+                <li class="bra-item">
+                    <a class="bra-link" href="#">무신사</a>
+                </li>
+                <li class="bra-item">
+                    <a class="bra-link" href="#">기타</a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <section>
+        <div>
+            <form th:object="${login}" method="post" class= "login">
+
+                <h1 class= "login-title">로그인</h1>
+                <label>아이디</label>
+                <input
+                        name="userId"
+                        type="text"
+                        placeholder="Email 또는 전화번호"
+                />
+                <label>비밀번호</label>
+                <input
+                        name="userPassword"
+                        type="password"
+                        placeholder="비밀번호"
+                />
+                <div class = "login-forgot">
+                    <a class="login-forgot-link" href="#">비밀번호를 잊으셨나요?</a>
+                </div>
+                <button type="submit" class="log-but">로그인</button>
+                <div class= "login-signup">
+                    회원이 아니신가요?
+                    <a class="login-signup-link" href="#">가입하기</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>
