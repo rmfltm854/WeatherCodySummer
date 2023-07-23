@@ -28,7 +28,7 @@ public class Controller {//윤서 등장
     }
 
 
-    @GetMapping("/Main")
+//    @GetMapping("/Main")
     public String mainPage(){
         return "product3madeByJms";
     }
@@ -43,6 +43,21 @@ public class Controller {//윤서 등장
     @GetMapping("/SignUp")
     public String signUp(){
         return "signUp";
+    }
+
+    @GetMapping("/Main")
+    public String mainPage2(){
+        return "main";
+    }
+
+    @GetMapping("/UserInfo")
+    public String userInfo(){
+        return "myPage";
+    }
+
+    @GetMapping("/Product")
+    public String productPage(){
+        return "product";
     }
 
 
