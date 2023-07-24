@@ -10,12 +10,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,54 +74,72 @@ public class Controller {//윤서 등장
         return "product";
     }
 
-    @GetMapping("signUp")
-    public String login(){
+    @GetMapping("/signUp")
+    public String getSignUpPage(){
         return "login/signUp";
     }
 
-    @PostMapping("signUp")
+    @PostMapping("/signUp")
     public String signUp(SignUp signUp){
         signUpService.save(signUp);
-        return "redirect:/practice/main";
+        return "redirect:/main";
     }
 
     @GetMapping("/main")
-    public String main(){
+    public String getMainPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) SignUp userInfo, Model model){
+        if (userInfo != null){ // session에 담긴 memberInfo의 값이 있으면 view에 memberInfo를 넘겨준다
+            model.addAttribute("memberInfo", userInfo);
+        }
         return "login/main";
     }
 
-    @GetMapping("login")
-    public String logPage(){
+    @GetMapping("/login")
+    public String getLogPage(){
         return "login/login";
     }
 
-    @PostMapping("login")
-    public String logP(@Valid @ModelAttribute("login") Login login, BindingResult bindingResult, HttpServletRequest request){
-        if(bindingResult.hasErrors()) {
-            return "login";
+    @PostMapping("/login")
+    public String login(@Valid @ModelAttribute("login") Login login, BindingResult bindingResult, HttpServletRequest request){
+        if(bindingResult.hasErrors()) { //에러 발생시 BindingResult 활용해서 글로벌 에러 띄우기
+            return "login/login";
         }
-        SignUp a = signUpService.findByLoginId(login.getUserId(), login.getUserPassword());
-        log.info("login? {}", a);
-        if (a == null) {
+        SignUp userInfo = signUpService.findByLoginId(login.getUserId(), login.getUserPassword()); //Login 객체를 활용하여 아이디와 비밀번호가 일치하면 회원정보 전체가 담긴 SignUp 객체에 담는다
+        log.info("login? {}", userInfo);
+        if (userInfo == null) { //일치하지 않을경우 에러메시지를 띄운다
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "login/login";
         }
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, a);
+        HttpSession session = request.getSession(); //session을 생성하여 getSession을 사용한다. -> session이 없으면 생성해주고 있으면 세션을 가져옴
+        System.out.println("in"+session.toString());
+        session.setAttribute(SessionConst.LOGIN_MEMBER, userInfo); // 생성된 session에 회원정보 전체를 담는다.
 
-        return "redirect:/practice/userInfo";
+        return "redirect:/main";
+    }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession(false); //session 가져옴. false --> session이 없어도 생성하지 않음
+        if (session != null){ // session이 null이 아니라면 session의 모든 데이터 삭제
+            session.invalidate();
+        }
+        System.out.println("out"+session.toString());
+
+
+        return "redirect:/main";
     }
 
     @GetMapping("/userInfo")
-    public String userInfo(HttpServletRequest request , Model model){
-        List<SignUp> info = signUpService.findInfo();
+    public String getUserInfoPage(HttpServletRequest request , Model model){
+        List<SignUp> info = signUpService.findUserInfo(); //이건 회원정보 리스트로 받아오는 로직 사용하지는 않았음
         model.addAttribute("list", info);
 
         HttpSession session = request.getSession(false);
-        SignUp loginMember = (SignUp)
+        SignUp userInfo = (SignUp)
                 session.getAttribute(SessionConst.LOGIN_MEMBER);
-        model.addAttribute("log", loginMember);
-        log.info("login? {}", loginMember);
+        model.addAttribute("userInfo", userInfo);
+        log.info("login? {}", userInfo);
 /**
  Login session = (Login) sessionManager.getSession(request);
  model.addAttribute("session", session);*/

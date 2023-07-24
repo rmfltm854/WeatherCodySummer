@@ -32,10 +32,23 @@
     </div>
 </nav>
 
+<!-- thymeleaf th:block활용
+    1. 넘어온 memberInfo값이 있으면 로그아웃을 띄어줌
+    2. 넘어온 값이 없다면 로그인을 띄워줌-->
+
 <div class="navnav">
     <ul class="menu">
         <li class="nav-item">
-            <a class="nav-link" href="login">로그인</a>
+            <th:block th:if="${memberInfo != null}">
+                <div class="depth">
+                    <a class="title" href="/logout"> 로그아웃</a>
+                </div>
+            </th:block>
+            <th:block th:if="${memberInfo == null}">
+                <div class="depth">
+                    <a class="title" href="/login"> 로그인</a>
+                </div>
+            </th:block>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="userInfo">마이페이지</a>
