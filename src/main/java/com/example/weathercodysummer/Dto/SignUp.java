@@ -3,7 +3,7 @@ package com.example.weathercodysummer.Dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import practice.backend.Entity.SignUpEntity;
+import com.example.weathercodysummer.Entity.SignUpEntity;
 
 @Getter @Setter
 @ToString

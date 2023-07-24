@@ -27,6 +27,7 @@ public class SignUpRepo {
 
     @Transactional
     public Optional<SignUpEntity> findByLoginId(String userId){
+
         Optional<SignUpEntity> first = findInfo().stream().filter(s -> s.getUserId().equals(userId)).findFirst();
         System.out.println(first.toString());
         return first;
@@ -34,6 +35,7 @@ public class SignUpRepo {
     }
 
     public List<SignUpEntity> findInfo(){
+
         List<SignUpEntity> li = em.createQuery("select s from SignUpEntity s", SignUpEntity.class)
                 .getResultList();
         return li;

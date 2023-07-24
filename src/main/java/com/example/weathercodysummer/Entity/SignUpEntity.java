@@ -12,7 +12,7 @@ import com.example.weathercodysummer.Dto.SignUp;
 public class SignUpEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mem_id")
     private Long id;
 

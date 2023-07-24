@@ -3,7 +3,8 @@ package com.example.weathercodysummer.Dto;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class Login {
 
