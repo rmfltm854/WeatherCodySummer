@@ -201,6 +201,11 @@ section{
     padding: 20px;
 }
 
+.row .col-lg-4{
+    float: none;
+    margin:0 auto;
+}
+
 .info-box{
     display:block;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.15);
