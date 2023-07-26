@@ -11,8 +11,10 @@ import com.example.weathercodysummer.Dto.SignUp;
 import com.example.weathercodysummer.Entity.SignUpEntity;
 
 import com.example.weathercodysummer.Repository.SignUpRepo;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,6 +51,12 @@ public class SignUpService {
                 .collect(Collectors.toList());
 
         return userInfoList;
+    }
+
+    public boolean getAllList(SignUp signUp){
+        Optional<SignUpEntity> a = repo.findByLoginId(signUp.getUserId());
+        System.out.println(a);
+        return a.isEmpty();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.weathercodysummer.Dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,10 +9,13 @@ import com.example.weathercodysummer.Entity.SignUpEntity;
 @Getter @Setter
 @ToString
 public class SignUp {
-
+    @NotEmpty
     private String userName;
+    @NotEmpty
     private String userId;
+    @NotEmpty
     private String userPassword;
+    @NotEmpty
     private String userEmail;
 
     public SignUp(String userName, String userId, String userPassword, String userEmail) {

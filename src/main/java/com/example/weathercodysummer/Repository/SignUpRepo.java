@@ -30,7 +30,6 @@ public class SignUpRepo {
     public Optional<SignUpEntity> findByLoginId(String userId){
 
         Optional<SignUpEntity> getUserInfo = findInfo().stream().filter(s -> s.getUserId().equals(userId)).findFirst(); // DB에서 받아온 userId값과 일치한 userId값을 찾아와서 Optional로 한 번 감싼다
-        System.out.println(getUserInfo.toString());
 
         return getUserInfo;
 

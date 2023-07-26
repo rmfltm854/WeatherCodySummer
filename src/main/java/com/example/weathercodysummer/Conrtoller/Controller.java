@@ -2,6 +2,7 @@ package com.example.weathercodysummer.Conrtoller;
 
 import com.example.weathercodysummer.Dto.Login;
 import com.example.weathercodysummer.Dto.SignUp;
+import com.example.weathercodysummer.Entity.SignUpEntity;
 import com.example.weathercodysummer.Service.*;
 import com.example.weathercodysummer.session.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @org.springframework.stereotype.Controller
@@ -75,14 +77,22 @@ public class Controller {//윤서 등장
     }
 
     @GetMapping("/signUp")
-    public String getSignUpPage(){
+    public String getSignUpPage(@ModelAttribute("signUp") SignUp signUp){
         return "login/signUp";
     }
 
     @PostMapping("/signUp")
-    public String signUp(SignUp signUp){
+    public String signUp(@Valid @ModelAttribute("signUp") SignUp signUp, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "/login/signUp";
+        }
+        boolean a = signUpService.getAllList(signUp);
+        if(a == false){
+            bindingResult.reject("loginFail", "중복된 아이디 입니다.");
+            return "/login/signUp";
+        }
         signUpService.save(signUp);
-        return "redirect:/main";
+        return "redirect:/login";
     }
 
     @GetMapping("/main")
