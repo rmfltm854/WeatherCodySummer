@@ -137,10 +137,14 @@ public class Controller {//윤서 등장
         model.addAttribute("list", info);
 
         HttpSession session = request.getSession(false);
-        SignUp userInfo = (SignUp)
-                session.getAttribute(SessionConst.LOGIN_MEMBER);
-        model.addAttribute("userInfo", userInfo);
-        log.info("login? {}", userInfo);
+
+        if(session!=null) {
+
+            SignUp userInfo = (SignUp)
+                    session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("userInfo", userInfo);
+            log.info("login? {}", userInfo);
+        }
 /**
  Login session = (Login) sessionManager.getSession(request);
  model.addAttribute("session", session);*/
