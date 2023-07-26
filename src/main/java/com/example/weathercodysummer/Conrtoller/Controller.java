@@ -90,11 +90,12 @@ public class Controller {//윤서 등장
         if (userInfo != null){ // session에 담긴 memberInfo의 값이 있으면 view에 memberInfo를 넘겨준다
             model.addAttribute("memberInfo", userInfo);
         }
+        model.addAttribute("a", userInfo);
         return "login/main";
     }
 
     @GetMapping("/login")
-    public String getLogPage(){
+    public String getLogPage(@ModelAttribute("login") Login login){
         return "login/login";
     }
 
