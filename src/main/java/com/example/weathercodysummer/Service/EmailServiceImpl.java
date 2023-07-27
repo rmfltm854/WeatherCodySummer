@@ -13,12 +13,13 @@ import java.util.Random;
 
 @Service
 public class EmailServiceImpl implements EmailService{
+
     @Autowired
     JavaMailSender emailSender;
 
 
     String ePw = "";
-    public static String createKey() {
+    public static String createKey() {//랜덤 문자열 뽑정
         StringBuffer key = new StringBuffer();
         Random rnd = new Random();
 

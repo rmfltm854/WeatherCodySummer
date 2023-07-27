@@ -41,12 +41,12 @@ public class Controller {//윤서 등장
     }
 
 
-   @GetMapping("/")
-    public String mainPage() throws Exception {
-        String Confirm = service.sendSimpleMessage("bill7666@naver.com");
-        System.out.println(Confirm);
-        return "main";
-    }
+//   @GetMapping("/")
+//    public String mainPage() throws Exception {
+//        String Confirm = service.sendSimpleMessage("bill7666@naver.com");
+//        System.out.println(Confirm);
+//        return "main";
+//    }
 
 //    @GetMapping("/Login")
 //    public String loginPage(){

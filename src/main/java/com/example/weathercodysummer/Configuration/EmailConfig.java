@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
-
+//application.properties에있는 설정값들을 주입
 @Configuration
 @PropertySource("classpath:application.properties")
 public class EmailConfig {
