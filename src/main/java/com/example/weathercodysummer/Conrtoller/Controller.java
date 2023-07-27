@@ -93,7 +93,7 @@ public class Controller {//윤서 등장
 
     @GetMapping("/main")
     public String getMainPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) SignUp userInfo, Model model){
-        if (userInfo != null){ // session에 담긴 memberInfo의 값이 있으면 view에 memberInfo를 넘겨준다
+        if (userInfo != null){ // session에 담긴 memberInfo의 값이 있으면 view에 memberInfo를 넘겨준다.
             model.addAttribute("memberInfo", userInfo);
         }
         model.addAttribute("a", userInfo);
