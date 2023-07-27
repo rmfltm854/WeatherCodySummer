@@ -2,7 +2,6 @@ package com.example.weathercodysummer.Conrtoller;
 
 import com.example.weathercodysummer.Dto.Login;
 import com.example.weathercodysummer.Dto.SignUp;
-import com.example.weathercodysummer.Entity.SignUpEntity;
 import com.example.weathercodysummer.Service.*;
 import com.example.weathercodysummer.session.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,15 +10,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @org.springframework.stereotype.Controller
@@ -49,10 +45,10 @@ public class Controller {//윤서 등장
         return "product3madeByJms";
     }
 
-    @GetMapping("/Login")
-    public String loginPage(){
-        return "login";
-    }
+//    @GetMapping("/Login")
+//    public String loginPage(){
+//        return "login";
+//    }
 
 
     //hello
@@ -111,8 +107,9 @@ public class Controller {//윤서 등장
 
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute("login") Login login, BindingResult bindingResult, HttpServletRequest request){
+        System.out.println(login);
         if(bindingResult.hasErrors()) { //에러 발생시 BindingResult 활용해서 글로벌 에러 띄우기
-            return "login/login";
+            return "login";
         }
         SignUp userInfo = signUpService.findByLoginId(login.getUserId(), login.getUserPassword()); //Login 객체를 활용하여 아이디와 비밀번호가 일치하면 회원정보 전체가 담긴 SignUp 객체에 담는다
         log.info("login? {}", userInfo);
