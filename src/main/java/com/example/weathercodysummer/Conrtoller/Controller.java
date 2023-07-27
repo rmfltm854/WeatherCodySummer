@@ -28,6 +28,7 @@ public class Controller {//윤서 등장
     Crawling4Service service4 = new Crawling4Service();
     Crawling4ServiceMadeByJMS jms = new Crawling4ServiceMadeByJMS();
 
+    private final EmailService service;
     @Autowired
     SignUpService signUpService;
 
@@ -40,9 +41,11 @@ public class Controller {//윤서 등장
     }
 
 
-//    @GetMapping("/Main")
-    public String mainPage(){
-        return "product3madeByJms";
+   @GetMapping("/")
+    public String mainPage() throws Exception {
+        String Confirm = service.sendSimpleMessage("bill7666@naver.com");
+        System.out.println(Confirm);
+        return "main";
     }
 
 //    @GetMapping("/Login")
