@@ -199,6 +199,7 @@ section{
     margin: 10px auto;
     font-size:24px;
     padding: 20px;
+    align-items: center;
 }
 
 .row .col-lg-4{

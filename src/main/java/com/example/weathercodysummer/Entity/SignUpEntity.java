@@ -7,7 +7,6 @@ import com.example.weathercodysummer.Dto.SignUp;
 
 @Entity
 @Getter
-@Table(name = "memberInfo")
 
 public class SignUpEntity {
 
