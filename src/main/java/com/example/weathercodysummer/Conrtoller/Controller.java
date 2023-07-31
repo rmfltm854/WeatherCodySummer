@@ -161,5 +161,17 @@ public class Controller {//윤서 등장
         return "/login/userInfo";
     }
 
+    @GetMapping("/update")
+    public String getUpdatePage(HttpServletRequest request , Model model) {
+        request.getSession(false);
+        return "login/update";
+    }
+
+    @PostMapping("/update")
+    public String update(SignUp signUp){
+        signUpService.update(signUp); // 회원정보 수정 메소드
+        return "redirect:/login";
+    }
+
 
 }
