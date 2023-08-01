@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import com.example.weathercodysummer.Dto.Login;
 import com.example.weathercodysummer.Dto.SignUp;
+import lombok.Setter;
 
 @Entity
 @Getter
-
+@Setter
 public class SignUpEntity {
 
     @Id

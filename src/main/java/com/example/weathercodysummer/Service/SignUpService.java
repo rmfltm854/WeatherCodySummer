@@ -11,6 +11,7 @@ import com.example.weathercodysummer.Dto.SignUp;
 import com.example.weathercodysummer.Entity.SignUpEntity;
 
 import com.example.weathercodysummer.Repository.SignUpRepo;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
@@ -57,6 +58,15 @@ public class SignUpService {
         Optional<SignUpEntity> a = repo.findByLoginId(signUp.getUserId());
         System.out.println(a);
         return a.isEmpty();
+    }
+
+    @Transactional
+    public void update(SignUp signUp){ //받아온 값으로 정보 수정
+        SignUpEntity updateInfo = repo.update(signUp.getUserId());
+        updateInfo.setUserName(signUp.getUserName());
+        updateInfo.setUserPassword(signUp.getUserPassword());
+        updateInfo.setUserEmail(signUp.getUserEmail());
+
     }
 
 }
