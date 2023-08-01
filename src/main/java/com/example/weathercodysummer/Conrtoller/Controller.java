@@ -162,15 +162,22 @@ public class Controller {//윤서 등장
     }
 
     @GetMapping("/update")
-    public String getUpdatePage(HttpServletRequest request , Model model) {
-        request.getSession(false);
+    public String getUpdatePage(@ModelAttribute("signUp") SignUp signUp, HttpServletRequest request , Model model) {
+        HttpSession session = request.getSession(false);
+        SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        model.addAttribute("userInfo", userInfo);
         return "login/update";
     }
 
     @PostMapping("/update")
-    public String update(SignUp signUp){
+    public String update(@ModelAttribute("signUp") SignUp signUp, HttpServletRequest request, Model model){
         signUpService.update(signUp); // 회원정보 수정 메소드
         return "redirect:/login";
+    }
+
+    @GetMapping("/aa")
+    public String aa(){
+        return "/login/update";
     }
 
 
