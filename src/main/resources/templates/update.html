@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>WeatherCody</title>
+    <link rel="stylesheet" href="/css/update.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- 민수꺼 -->
+<div class="weatherWidget">
+    <div  id="ww_ef7067e45137d" v='1.3' loc='id' a='{"t":"responsive","lang":"ko","sl_lpl":1,"ids":["wl7405"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","cl_odd":"#00000000"}'>Weather for the Following Location: <a href="https://2ua.org/de/kor/gimhae/karte/" id="ww_ef7067e45137d_u" target="_blank">Gimhae karte</a></div><script async src="https://app1.weatherwidget.org/js/?id=ww_ef7067e45137d"></script>
+</div>
+<!-- 여기까지 -->
+<nav>
+    <img class="logo" src="/image/logo.png.png">
+    <form class="search-bar" role="search">
+        <input class="search-bar2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn" type="submit">Search</button>
+    </form>
+    <div class = "rank"> 랭킹
+        <span class="chart-change up">▲</span>
+    </div>
+</nav>
+
+<div class="navnav">
+    <ul class="menu">
+        <li class="nav-item">
+            <a class="nav-link" href="#">로그아웃</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">마이페이지</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">남성</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">여성</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">고객센터</a>
+        </li>
+    </ul>
+</div>
+<main>
+    <aside>
+        <div class="side_box">CATEGORT
+            <ul class="brand">
+                <li class="bra-item">
+                    <a class="bra-link" href="#">무신사</a>
+                </li>
+                <li class="bra-item">
+                    <a class="bra-link" href="#">기타</a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <section class = "sec-blo">
+        <header class="n-section-title first info_view-area">
+            <h1 class="tit">
+                회원정보 수정
+            </h1>
+
+            <form class= "signUp">
+                <table class = "n-table table-row my-info-modify" >
+                    <colgroup>
+                        <col style="width: 190px">
+                        <col style="width:*">
+                        <col style="width: 30%">
+                    </colgroup>
+
+                    <tbody>
+
+                    <tr>
+                        <th scope="row">이름</th>
+                        <td>
+                            <strong>홍길동</strong>
+                        </td>
+                        <th scope="row">이름 변경</th>
+                        <td>
+                            <input
+                                    name="userId"
+                                    type="text"
+                                    placeholder="이름을 입력해주세요."
+                            />
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th scope="row">아이디</th>
+                        <td>
+                            <strong>id_@@</strong>
+                        </td>
+                        <th scope="row">아이디 변경</th>
+                        <td>
+                            <input
+                                    name="userName"
+                                    type="text"
+                                    placeholder="아이디를 입력해주세요."
+                            />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">비밀번호</th>
+                        <td>
+                            <strong>********</strong>
+                        </td>
+                        <th scope="row">비밀번호 변경</th>
+                        <td>
+                            <input
+                                    name="userPassword"
+                                    type="password"
+                                    placeholder="비밀번호를 입력해주세요."
+                            />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">이메일</th>
+                        <td>
+                            <strong>idid@naver.com</strong>
+                        </td>
+                        <th scope="row">이메일 변경</th>
+                        <td>
+                            <input
+                                    name="userEmail"
+                                    type="text"
+                                    placeholder="Email을 입력해주세요."
+                            />
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+
+                <button type="submit" class="sign-but">회원가입 수정 완료</button>
+            </form>
+        </header>
+    </section>
+</main>
+</body>
+</html>
