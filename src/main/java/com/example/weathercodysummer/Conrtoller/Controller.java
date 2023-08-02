@@ -28,7 +28,7 @@ public class Controller {//윤서 등장
     Crawling4Service service4 = new Crawling4Service();
     Crawling4ServiceMadeByJMS jms = new Crawling4ServiceMadeByJMS();
 
-    private final EmailService service;
+    private final EmailService emailService;
     @Autowired
     SignUpService signUpService;
 
@@ -52,7 +52,6 @@ public class Controller {//윤서 등장
 //    public String loginPage(){
 //        return "login";
 //    }
-
 
     //hello
     @GetMapping("/SignUp")
@@ -178,6 +177,14 @@ public class Controller {//윤서 등장
     @GetMapping("/aa")
     public String aa(){
         return "/login/update";
+    }
+
+    @RequestMapping("/mail")//회원가입 중 email인증 메소드
+    @ResponseBody
+    public String mailCheck(String email,Model model)throws Exception{
+        String confirm = emailService.sendSimpleMessage(email);
+        System.out.println(confirm);
+        return confirm;
     }
 
 
