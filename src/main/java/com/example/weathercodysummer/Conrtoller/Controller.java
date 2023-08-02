@@ -26,11 +26,14 @@ public class Controller {//윤서 등장
     Crawling3Service service3 = new Crawling3Service();
 
     Crawling4Service service4 = new Crawling4Service();
-    Crawling4ServiceMadeByJMS jms = new Crawling4ServiceMadeByJMS();
+    //Crawling4ServiceMadeByJMS jms = new Crawling4ServiceMadeByJMS();
 
     private final EmailService emailService;
     @Autowired
-    SignUpService signUpService;
+    private SignUpService signUpService;
+
+    @Autowired
+    private Crawling4ServiceMadeByJMS jms;
 
     @GetMapping("/crawling")
     @ResponseBody
