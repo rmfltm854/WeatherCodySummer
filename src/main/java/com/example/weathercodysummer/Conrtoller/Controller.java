@@ -170,7 +170,7 @@ public class Controller {//윤서 등장
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("signUp") SignUp signUp, HttpServletRequest request, Model model){
+    public String update(@ModelAttribute("signUp") SignUp signUp){
         signUpService.update(signUp); // 회원정보 수정 메소드
         return "redirect:/login";
     }
