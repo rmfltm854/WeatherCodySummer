@@ -70,12 +70,12 @@ public class Controller {//윤서 등장
         return "myPage";
     }
 
-    @GetMapping("/Product")
+    @GetMapping("/Product") // db에 저장된 크롤링 한 이미지 띄우기
     public String productPage(Model model){
 
-        List<MainImage> mainImages = jms.mainImageList();
+        List<MainImage> mainImages = crawlingService.mainImageList();
         model.addAttribute("list", mainImages);
-        return "chun";
+        return "login/man";
     }
 
     @GetMapping("/signUp")

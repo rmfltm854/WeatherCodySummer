@@ -12,7 +12,7 @@ import java.util.List;
 public class WeahterCodyService {
 
     @Autowired
-    Crawling4ServiceMadeByJMS jms;
+    CrawlingService jms;
 
     public void Test(){
         List<HashMap<String,List<String>>> totalResultURL = jms.main5();//main5메소드 반환받는다.
