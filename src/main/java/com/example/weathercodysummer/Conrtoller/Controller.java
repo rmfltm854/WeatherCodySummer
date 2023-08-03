@@ -31,13 +31,13 @@ public class Controller {//윤서 등장
     private SignUpService signUpService;
 
     @Autowired
-    private Crawling4ServiceMadeByJMS jms;
+    private CrawlingService crawlingService;
 
     @GetMapping("/crawling")
     @ResponseBody
     public List<HashMap<String,List<String>>> Test(){
 //        List<String> list = service4.main5();
-        List<HashMap<String,List<String>>> list = jms.main5();
+        List<HashMap<String,List<String>>> list = crawlingService.main5();
         return list;
     }
 
