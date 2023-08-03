@@ -6,7 +6,9 @@
 </head>
 <body>
 
-<h1> 천윤서 입장</h1>
+<tr th:each="list:${list}">
+    <td><img th:text="${list}" th:src="@{${list}}"></td>
+</tr>
 
 </body>
 </html>

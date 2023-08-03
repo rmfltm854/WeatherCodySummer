@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -124,4 +125,13 @@ public class Crawling4ServiceMadeByJMS {//웹페이지 slowsteadyclub 크롤러
         return resultList;
 
     }
+
+    public List<com.example.weathercodysummer.Dto.MainImage> mainImageList(){
+        List<com.example.weathercodysummer.Dto.MainImage> all = repo.findAll();
+       // List<com.example.weathercodysummer.Dto.MainImage> collect = all.stream().map(MainImage::toDto).collect(Collectors.toList());
+        return all;
+
+    }
+
+
 }

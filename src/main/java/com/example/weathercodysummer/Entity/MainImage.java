@@ -23,15 +23,19 @@ public class MainImage {
     private List<SubImage> subImages = new ArrayList<>();
 
 
-    public MainImage(Long id, String src) {
+    public MainImage(Long id,String src) {
         this.id = id;
+        this.src = src;
+    }
+
+    public MainImage(String src){
         this.src = src;
     }
 
 
 
     public com.example.weathercodysummer.Dto.MainImage toDto(){
-        return new com.example.weathercodysummer.Dto.MainImage(id, src);
+        return new com.example.weathercodysummer.Dto.MainImage(src);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.weathercodysummer.Conrtoller;
 
 import com.example.weathercodysummer.Dto.Login;
+import com.example.weathercodysummer.Dto.MainImage;
 import com.example.weathercodysummer.Dto.SignUp;
 import com.example.weathercodysummer.Service.*;
 import com.example.weathercodysummer.session.SessionConst;
@@ -22,13 +23,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Controller {//윤서 등장
 
-    Crawling2Service service2 = new Crawling2Service();
-    Crawling3Service service3 = new Crawling3Service();
-
-    Crawling4Service service4 = new Crawling4Service();
     //Crawling4ServiceMadeByJMS jms = new Crawling4ServiceMadeByJMS();
 
     private final EmailService emailService;
+
     @Autowired
     private SignUpService signUpService;
 
@@ -73,8 +71,11 @@ public class Controller {//윤서 등장
     }
 
     @GetMapping("/Product")
-    public String productPage(){
-        return "product";
+    public String productPage(Model model){
+
+        List<MainImage> mainImages = jms.mainImageList();
+        model.addAttribute("list", mainImages);
+        return "chun";
     }
 
     @GetMapping("/signUp")
