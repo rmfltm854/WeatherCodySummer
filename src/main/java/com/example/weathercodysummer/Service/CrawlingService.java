@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -22,6 +24,7 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
 
     @Autowired
     private CrawlingRepository repo;
+
 
     public List<HashMap<String, List<String>>> main5() {
 
@@ -86,17 +89,16 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
                 for(Map.Entry<String, List<String>> elem : resultMap.entrySet()){
                     MainImage mainImage = new MainImage();
                     mainImage.setSrc(elem.getKey());
-                    repo.save2(mainImage);
+                    repo.saveMainImage(mainImage);
 
                     for (String s : elem.getValue()) {
                         SubImage subImage = new SubImage();
                         subImage.setImage(mainImage);
                         subImage.setSrc(s);
-                        repo.save(subImage);
+                        repo.saveSubImage(subImage);
                     }
                 }
 
-                resultMap.keySet();
 
                 resultList.add(resultMap);
                 resultMap = new HashMap<>();//map 저장된 앞선 사진들 초기화
@@ -122,6 +124,27 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
         return all;
 
     }
+
+    public List<com.example.weathercodysummer.Dto.SubImage> detail(Long id){
+
+        List<SubImage> detailImages = repo.findSubImage(id);
+        List<com.example.weathercodysummer.Dto.SubImage> toDto = detailImages.stream().map(SubImage::toDto).collect(Collectors.toList());
+        return toDto;
+    }
+
+    public com.example.weathercodysummer.Dto.MainImage findMainSrc(Long id){
+        MainImage mainImage = repo.findMainSrc(id);
+        com.example.weathercodysummer.Dto.MainImage toDto = mainImage.toDto();
+        return toDto;
+    }
+
+
+
+    /**
+    public List<com.example.weathercodysummer.Dto.SubImage> detail(Long id){
+        repo.detail(id);
+
+    }*/
 
 
 }

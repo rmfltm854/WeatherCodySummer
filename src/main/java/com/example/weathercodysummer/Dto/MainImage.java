@@ -12,7 +12,8 @@ public class MainImage {
 
     private String src;
 
-    public MainImage(String src) {
+    public MainImage(Long id, String src) {
+        this.id = id;
         this.src = src;
     }
 

@@ -1,20 +1,23 @@
 package com.example.weathercodysummer.Conrtoller;
 
-import com.example.weathercodysummer.Dto.Login;
-import com.example.weathercodysummer.Dto.MainImage;
-import com.example.weathercodysummer.Dto.SignUp;
+import com.example.weathercodysummer.Dto.*;
+import com.example.weathercodysummer.Repository.CrawlingRepository;
 import com.example.weathercodysummer.Service.*;
 import com.example.weathercodysummer.session.SessionConst;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +29,7 @@ public class Controller {//윤서 등장
     //Crawling4ServiceMadeByJMS jms = new Crawling4ServiceMadeByJMS();
 
     private final EmailService emailService;
+
 
     @Autowired
     private SignUpService signUpService;
@@ -70,13 +74,6 @@ public class Controller {//윤서 등장
         return "myPage";
     }
 
-    @GetMapping("/Product") // db에 저장된 크롤링 한 이미지 띄우기
-    public String productPage(Model model){
-
-        List<MainImage> mainImages = crawlingService.mainImageList();
-        model.addAttribute("list", mainImages);
-        return "login/man";
-    }
 
     @GetMapping("/signUp")
     public String getSignUpPage(@ModelAttribute("signUp") SignUp signUp){
@@ -132,11 +129,21 @@ public class Controller {//윤서 등장
 
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, Model model){
+    public String logout(HttpServletRequest request, Model model, HttpServletResponse response){
 
         HttpSession session = request.getSession(false); //session 가져옴. false --> session이 없어도 생성하지 않음
         if (session != null){ // session이 null이 아니라면 session의 모든 데이터 삭제
             session.invalidate();
+        }
+        Cookie[] cookies = request.getCookies();
+        if (cookies!=null){
+            for(int i=0; i< cookies.length; i++){
+
+                cookies[i].setMaxAge(0); // 유효시간을 0으로 설정
+
+                response.addCookie(cookies[i]); // 응답 헤더에 추가
+
+            }
         }
         System.out.println("out"+session.toString());
 
@@ -166,9 +173,9 @@ public class Controller {//윤서 등장
 
     @GetMapping("/update")
     public String getUpdatePage(@ModelAttribute("signUp") SignUp signUp, HttpServletRequest request , Model model) {
-        HttpSession session = request.getSession(false);
-        SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        model.addAttribute("userInfo", userInfo);
+        HttpSession session = request.getSession(false); // session 받아오기
+        SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER); // session에 담긴 사용자 정보를 SignUp에 담기
+        model.addAttribute("userInfo", userInfo); // SignUp을 view에 넘기기
         return "login/update";
     }
 
@@ -178,9 +185,77 @@ public class Controller {//윤서 등장
         return "redirect:/login";
     }
 
-    @GetMapping("/aa")
-    public String aa(){
-        return "/login/update";
+    @GetMapping("/product/man/etc") // db에 저장된 크롤링 한 이미지 띄우기
+    public String manPage(Model model, HttpServletRequest request){
+
+        request.getSession(false);
+
+        List<MainImage> mainImages = crawlingService.mainImageList();
+        //List<SubImage> mainImages = crawlingService.mainImageList2();
+        model.addAttribute("list", mainImages);
+
+
+        return "login/manEtc";
+    }
+
+    @GetMapping("/product/women")
+    public String womenPage(Model model){
+
+        return "login/women";
+    }
+
+    @GetMapping("/product/detail")
+    public String detailPage(@RequestParam("id") Long id, Model model, HttpServletRequest request,HttpServletResponse response){ //상품 상세 메소드 --> view 가 아직 없어서 userInfo.html 복사 후 사용. 백앤드 로직은 완벽 구현
+
+        MainImage mainSrc = crawlingService.findMainSrc(id);
+        List<SubImage> detailImages = crawlingService.detail(id);
+        model.addAttribute("mainSrc", mainSrc);
+        model.addAttribute("list", detailImages);
+
+        request.getSession(false); // session 받아오기
+        //SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER); // session에 담긴 사용자 정보를 SignUp에 담기
+        //model.addAttribute("userInfo", userInfo); // SignUp을 view에 넘기기
+
+
+        Cookie cookie = new Cookie(id + "recently", mainSrc.getSrc());
+        cookie.setPath("/recently/view");
+        cookie.setMaxAge(300);
+        response.addCookie(cookie);
+
+
+        return "login/productDetail"; // 현재 productDetail 페이지가 아니라 userInfo.html 복사 붙여넣기 한 페이지임.
+    }
+
+    @GetMapping("/recently/view")
+    public String recentlyview(HttpServletRequest request, Model model){
+        //HttpSession session = request.getSession(false);
+        //ArrayList mainSrc = (ArrayList) session.getAttribute("mainSrc");
+        //model.addAttribute("mainSrc", mainSrc);
+        List<String> a = new ArrayList<>();
+
+
+        Cookie[] cookies = request.getCookies();
+        /**
+        if (cookies != null){
+            for (int i=0; i<cookies.length; i++){
+                String value = cookies[i].getValue().toString();
+                a.add(value);
+                }
+*/
+
+
+        if (cookies != null){
+            for (int i=0; i<cookies.length; i++){
+                String value = cookies[i].getValue().toString();
+                String string = cookies[i].getName();
+                if(string.contains("recently")){
+                    a.add(value);
+                }
+                System.out.println(string);
+            }
+        }
+        model.addAttribute("list", a);
+        return "login/recentlyView";
     }
 
     @RequestMapping("/mail")//회원가입 중 email인증 메소드
@@ -189,6 +264,18 @@ public class Controller {//윤서 등장
         String confirm = emailService.sendSimpleMessage(email);
         System.out.println(confirm);
         return confirm;
+    }
+
+    @GetMapping("aa")
+    public String aa(){
+        return "help";
+    }
+
+
+
+    @GetMapping("bb")
+    public String aa2(){
+        return "productDetail";
     }
 
 

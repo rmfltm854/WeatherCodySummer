@@ -1,13 +1,10 @@
 package com.example.weathercodysummer.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubImage {
@@ -19,8 +16,15 @@ public class SubImage {
 
     private String src;
 
+
     @ManyToOne
     @JoinColumn(name = "main_id")
     private MainImage image;
+
+
+
+    public com.example.weathercodysummer.Dto.SubImage toDto(){
+        return new com.example.weathercodysummer.Dto.SubImage(id, src);
+    }
 
 }
