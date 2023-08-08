@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherCody</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/chat.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/637650a57e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<!-- 민수꺼 -->
+<div class="weatherWidget">
+    <div  id="ww_ef7067e45137d" v='1.3' loc='id' a='{"t":"responsive","lang":"ko","sl_lpl":1,"ids":["wl7405"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","cl_odd":"#00000000"}'>Weather for the Following Location: <a href="https://2ua.org/de/kor/gimhae/karte/" id="ww_ef7067e45137d_u" target="_blank">Gimhae karte</a></div><script async src="https://app1.weatherwidget.org/js/?id=ww_ef7067e45137d"></script>
+</div>
+<!-- 여기까지 -->
+<nav>
+    <img class="logo" src="/img/logo.png.png">
+    <form class="search-bar" role="search">
+        <input class="search-bar2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn" type="submit">Search</button>
+    </form>
+    <div class = "rank"> 랭킹
+        <span class="chart-change up">▲</span>
+    </div>
+</nav>
+
+<div class="navnav">
+    <ul class="menu">
+        <li class="nav-item">
+            <a class="nav-link" href="#">로그인</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">마이페이지</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">남성</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">여성</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#">고객센터</a>
+        </li>
+    </ul>
+</div>
+<main>
+    <aside>
+        <div class="side_box">CATEGORT
+            <ul class="brand">
+                <li class="bra-item">
+                    <a class="bra-link" href="#">무신사</a>
+                </li>
+                <li class="bra-item">
+                    <a class="bra-link" href="#">기타</a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <section>
+            <form id="chat-container">
+                <header>Weather Cody 고객센터</header>
+                <div id="chat-messages">
+                    <div class="chat ch1">
+                        <div class="icon"><i class="fa-solid fa-user"></i></div>
+                        <div class="textbox">안녕하세요. 고객님 Weather Cody입니다. 날씨 운영정보부터 추천 Cody까지  채팅으로 도와 드릴게요! </div>
+                    </div>
+                    <div class="chat ch2">
+                        <div class="icon"><i class="fa-solid fa-user"></i></div>
+                        <div class="textbox">상품에 대해서 문의 하고 싶어서 연락드립니다.</div>
+                    </div>
+                </div>
+                <div id="user-input">
+                    <input type="text" placeholder="메시지를 입력하세요." />
+                    <button>전송</button>
+                </div>
+            </form>
+    </section>
+</main>
+</body>
+</html>
