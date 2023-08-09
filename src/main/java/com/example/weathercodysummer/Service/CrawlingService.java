@@ -125,6 +125,14 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
 
     }
 
+    public List<com.example.weathercodysummer.Dto.MainImage> findMainImage(){
+        List<com.example.weathercodysummer.Dto.MainImage> mainImages = mainImageList();
+        return mainImages;
+
+    }
+
+
+
     public List<com.example.weathercodysummer.Dto.SubImage> detail(Long id){
 
         List<SubImage> detailImages = repo.findSubImage(id);
@@ -140,11 +148,7 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
 
 
 
-    /**
-    public List<com.example.weathercodysummer.Dto.SubImage> detail(Long id){
-        repo.detail(id);
 
-    }*/
 
 
 }

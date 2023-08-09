@@ -17,9 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @org.springframework.stereotype.Controller
@@ -216,11 +214,11 @@ public class Controller {//윤서 등장
         //SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER); // session에 담긴 사용자 정보를 SignUp에 담기
         //model.addAttribute("userInfo", userInfo); // SignUp을 view에 넘기기
 
-
-        Cookie cookie = new Cookie(id + "recently", mainSrc.getSrc());
+        Cookie cookie = new Cookie(id.toString(), mainSrc.getSrc());
         cookie.setPath("/recently/view");
         cookie.setMaxAge(300);
         response.addCookie(cookie);
+
 
 
         return "login/productDetail"; // 현재 productDetail 페이지가 아니라 userInfo.html 복사 붙여넣기 한 페이지임.
@@ -228,10 +226,16 @@ public class Controller {//윤서 등장
 
     @GetMapping("/recently/view")
     public String recentlyview(HttpServletRequest request, Model model){
-        //HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false);
+        if (session != null){
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("userInfo", userInfo);
+            System.out.println("==========");
+            System.out.println(userInfo.toString());
+        }
         //ArrayList mainSrc = (ArrayList) session.getAttribute("mainSrc");
         //model.addAttribute("mainSrc", mainSrc);
-        List<String> a = new ArrayList<>();
+        HashMap<Long, String> map = new LinkedHashMap<>();
 
 
         Cookie[] cookies = request.getCookies();
@@ -248,13 +252,16 @@ public class Controller {//윤서 등장
             for (int i=0; i<cookies.length; i++){
                 String value = cookies[i].getValue().toString();
                 String string = cookies[i].getName();
-                if(string.contains("recently")){
-                    a.add(value);
+                if(value.contains("slowsteadyclub")){
+                    Long l = Long.parseLong(string);
+                    map.put(l, value);
                 }
-                System.out.println(string);
             }
         }
-        model.addAttribute("list", a);
+
+        model.addAttribute("list", map);
+
+
         return "login/recentlyView";
     }
 
@@ -268,7 +275,7 @@ public class Controller {//윤서 등장
 
     @GetMapping("aa")
     public String aa(){
-        return "help";
+        return "main";
     }
 
 
