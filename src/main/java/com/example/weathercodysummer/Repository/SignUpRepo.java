@@ -2,8 +2,6 @@ package com.example.weathercodysummer.Repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,8 +48,8 @@ public class SignUpRepo {
     @Transactional
     public SignUpEntity update(String userId){
         Optional<SignUpEntity> findInfo = findInfo().stream().filter(s -> s.getUserId().equals(userId)).findFirst(); //userId와 같은 값 찾아오기
-        SignUpEntity signUpEntity = findInfo.get(); //optional로 감싼 값 빼내기
+        SignUpEntity SignUpEntity = findInfo.get(); //optional로 감싼 값 빼내기
         //SignUpEntity aa = em.find(SignUpEntity.class, signUpEntity.getId());
-        return signUpEntity;
+        return SignUpEntity;
     }
 }

@@ -20,13 +20,16 @@ public class MainImage {
 
     private String src;
 
+    private int likeNum;
+
     @OneToMany(mappedBy = "image")
     private List<SubImage> subImages = new ArrayList<>();
 
 
-    public MainImage(Long id,String src) {
+    public MainImage(Long id,String src,int likeNum) {
         this.id = id;
         this.src = src;
+        this.likeNum = likeNum;
     }
 
     public MainImage(String src){
@@ -36,7 +39,7 @@ public class MainImage {
 
 
     public com.example.weathercodysummer.Dto.MainImage toDto(){
-        return new com.example.weathercodysummer.Dto.MainImage(id, src);
+        return new com.example.weathercodysummer.Dto.MainImage(id, src,likeNum);
     }
 
 }

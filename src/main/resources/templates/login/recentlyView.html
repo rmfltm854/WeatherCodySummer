@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +22,9 @@
 </div>
 <!-- 여기까지 -->
 <nav>
+    <button type="button" style="background-color: transparent; border: none;" onclick="location.href='/main'">
     <img class="logo" src="/img/logo.png.png">
+    </button>
     <form class="search-bar" role="search">
         <input class="search-bar2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn" type="submit">Search</button>
@@ -50,7 +52,7 @@
         </li>
         </th:block>
         <li class="nav-item">
-            <a class="nav-link active" href="/recently/view" th:href="@{redirect:/recently/view}" >최근에 본 상품</a>
+            <a class="nav-link active" href="/recently/view"  >최근에 본 상품</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" aria-current="page" href="#">남성</a>

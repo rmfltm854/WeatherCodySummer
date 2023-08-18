@@ -50,12 +50,20 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
                 Element mainTag = mainTags.get(i);//받아온 maintags 에서 i번째 image태그 를 받아온다.
                 String mainImageTag = "https:" + mainTag.attr("src");//src 에 https: 가 빠져서나오는데 이렇게 저장하면 나중에 connection할때 또 붙혀줘야하기때문에 미리붙여준다.
                 String hrefLink = aTag.attr("href"); // aTag안의 href의 link를 찾음
-                hrefOfMainImageList.add("https://slowsteadyclub.com" + hrefLink); // 찾아온 링크를 hrefOfMainImageList에 추가
-                String linkUrl = hrefOfMainImageList.get(i).toString(); // list에서 link를 가져와 String형태로 변환
+
+                //hrefOfMainImageList.add("https://slowsteadyclub.com" + hrefLink); // 찾아온 링크를 hrefOfMainImageList에 추가
+//                String linkUrl = hrefOfMainImageList.get(i).toString(); // list에서 link를 가져와 String형태로 변환
+                String linkUrl = "https://slowsteadyclub.com" + hrefLink;
                 Connection innerConn = Jsoup.connect(linkUrl); // linkUrl로 접속
                 Document innerDocument = innerConn.get(); // linkUrl의 html을 담음
                 Elements liTags = innerDocument.select("ul.prdList > li.relation-item"); // 위와 같은 방법으로 <ul class=prdList> --> <li class=relation-item> 원하는 태그가 들어있는 클래스를 클래스 명으로 찾아서 Elements에 담음
                 Elements imgTags = liTags.select("img"); // 찾은 클래스 내에서 img 태그를 찾음
+                if(imgTags.isEmpty()){
+                    linkUrl = "";
+                    continue;
+                }else{
+                    hrefOfMainImageList.add("https://slowsteadyclub.com" + hrefLink); // 찾아온 링크를 hrefOfMainImageList에 추가
+                }
 /**
  URL mainImage = new URL(mainImageTag); //메인 이미지 src로 url 생성
  System.out.println(mainImage);
@@ -89,6 +97,7 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
                 for(Map.Entry<String, List<String>> elem : resultMap.entrySet()){
                     MainImage mainImage = new MainImage();
                     mainImage.setSrc(elem.getKey());
+                    mainImage.setLikeNum(0);
                     repo.saveMainImage(mainImage);
 
                     for (String s : elem.getValue()) {
@@ -145,10 +154,5 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
         com.example.weathercodysummer.Dto.MainImage toDto = mainImage.toDto();
         return toDto;
     }
-
-
-
-
-
 
 }

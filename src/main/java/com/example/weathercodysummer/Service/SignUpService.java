@@ -1,23 +1,18 @@
 package com.example.weathercodysummer.Service;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.weathercodysummer.Dto.Login;
 
 import com.example.weathercodysummer.Dto.SignUp;
 import com.example.weathercodysummer.Entity.SignUpEntity;
 
 import com.example.weathercodysummer.Repository.SignUpRepo;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
