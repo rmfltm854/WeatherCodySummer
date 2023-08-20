@@ -7,6 +7,7 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "man_sub")
 public class SubImage {
 
     @Id

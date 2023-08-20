@@ -35,9 +35,18 @@ public class Controller {//윤서 등장
     @Autowired
     private CrawlingService crawlingService;
 
-    @GetMapping("/crawling")
+    @GetMapping("/crawling2")
     @ResponseBody
     public List<HashMap<String,List<String>>> Test(){
+//        List<String> list = service4.main5();
+        List<HashMap<String,List<String>>> list = crawlingService.main2();
+        crawlingService.main5();
+        return list;
+    }
+
+    @GetMapping("/crawling")
+    @ResponseBody
+    public List<HashMap<String,List<String>>> Test2(){
 //        List<String> list = service4.main5();
         List<HashMap<String,List<String>>> list = crawlingService.main5();
         return list;
@@ -122,12 +131,13 @@ public class Controller {//윤서 등장
         System.out.println("in"+session.toString());
         session.setAttribute(SessionConst.LOGIN_MEMBER, userInfo); // 생성된 session에 회원정보 전체를 담는다.
 
+
         return "redirect:/main";
     }
 
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, Model model, HttpServletResponse response){
+    public String logout(HttpServletRequest request, HttpServletResponse response){
 
         HttpSession session = request.getSession(false); //session 가져옴. false --> session이 없어도 생성하지 않음
         if (session != null){ // session이 null이 아니라면 session의 모든 데이터 삭제
@@ -183,15 +193,18 @@ public class Controller {//윤서 등장
         return "redirect:/login";
     }
 
-    @GetMapping("/product/man/etc") // db에 저장된 크롤링 한 이미지 띄우기
-    public String manPage(Model model, HttpServletRequest request){
+    @GetMapping("/product/man")
+    public String manPage(){
+        return "login/man";
+    }
 
+    @GetMapping("/product/man/etc") // db에 저장된 크롤링 한 이미지 띄우기
+    public String manEtcPage(Model model, HttpServletRequest request){
         request.getSession(false);
 
         List<MainImage> mainImages = crawlingService.mainImageList();
         //List<SubImage> mainImages = crawlingService.mainImageList2();
         model.addAttribute("list", mainImages);
-
 
         return "login/manEtc";
     }
@@ -200,6 +213,18 @@ public class Controller {//윤서 등장
     public String womenPage(Model model){
 
         return "login/women";
+    }
+
+    @GetMapping("/product/women/etc")
+    public String womenEtcPage(Model model, HttpServletRequest request){
+
+        request.getSession(false);
+
+        List<SteadyWomanMainImg> mainImages = crawlingService.mainImageList2();
+        //List<SubImage> mainImages = crawlingService.mainImageList2();
+        model.addAttribute("list2", mainImages);
+
+        return "login/womenEtc";
     }
 
     @GetMapping("/product/detail")
@@ -260,6 +285,7 @@ public class Controller {//윤서 등장
         }
 
         model.addAttribute("list", map);
+
 
 
         return "login/recentlyView";
