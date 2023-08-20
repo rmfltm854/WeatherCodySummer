@@ -1,5 +1,7 @@
 package com.example.weathercodysummer.Conrtoller;
+
 import com.example.weathercodysummer.Dto.*;
+import com.example.weathercodysummer.Repository.CrawlingRepository;
 import com.example.weathercodysummer.Service.*;
 import com.example.weathercodysummer.session.SessionConst;
 import jakarta.servlet.http.Cookie;
@@ -9,22 +11,12 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 import java.util.*;
 
 @Slf4j
@@ -36,8 +28,6 @@ public class Controller {//윤서 등장
 
     private final EmailService emailService;
 
-    private static String secretKey = "c1h4RXhOQWZzdnhmc0VqcUhaaGZrdml3UFBSSEpxUVc="; //시크릿key
-    private static String apiUrl = "https://th2kqf441b.apigw.ntruss.com/custom/v1/9578/49c70246790368c425cc314d5f0f34ee727da4e65be819176717606f84934719"; //apiURL
 
     @Autowired
     private SignUpService signUpService;
@@ -45,12 +35,18 @@ public class Controller {//윤서 등장
     @Autowired
     private CrawlingService crawlingService;
 
-
-    @Autowired
-    MainImageService mainService;
-    @GetMapping("/crawling")
+    @GetMapping("/crawling2")
     @ResponseBody
     public List<HashMap<String,List<String>>> Test(){
+//        List<String> list = service4.main5();
+        List<HashMap<String,List<String>>> list = crawlingService.main2();
+        crawlingService.main5();
+        return list;
+    }
+
+    @GetMapping("/crawling")
+    @ResponseBody
+    public List<HashMap<String,List<String>>> Test2(){
 //        List<String> list = service4.main5();
         List<HashMap<String,List<String>>> list = crawlingService.main5();
         return list;
@@ -64,6 +60,10 @@ public class Controller {//윤서 등장
 //        return "main";
 //    }
 
+//    @GetMapping("/Login")
+//    public String loginPage(){
+//        return "login";
+//    }
 
     //hello
     @GetMapping("/SignUp")
@@ -102,17 +102,11 @@ public class Controller {//윤서 등장
     }
 
     @GetMapping("/main")
-    public String getMainPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) SignUp userInfo, Model model,HttpServletResponse response){
+    public String getMainPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) SignUp userInfo, Model model){
         if (userInfo != null){ // session에 담긴 memberInfo의 값이 있으면 view에 memberInfo를 넘겨준다.
             model.addAttribute("memberInfo", userInfo);
-            Cookie cookie = new Cookie("userInfo","loginSuccess");
-            response.addCookie(cookie);
-
         }
-        List<MainImage> mainRanking = mainService.mainImageRank();
-        model.addAttribute("manRank",mainRanking);
         model.addAttribute("a", userInfo);
-        //System.out.println(session.getAttribute("loginMember"));
         return "login/main";
     }
 
@@ -120,7 +114,6 @@ public class Controller {//윤서 등장
     public String getLogPage(@ModelAttribute("login") Login login){
         return "login/login";
     }
-
 
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute("login") Login login, BindingResult bindingResult, HttpServletRequest request){
@@ -138,12 +131,13 @@ public class Controller {//윤서 등장
         System.out.println("in"+session.toString());
         session.setAttribute(SessionConst.LOGIN_MEMBER, userInfo); // 생성된 session에 회원정보 전체를 담는다.
 
+
         return "redirect:/main";
     }
 
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, Model model, HttpServletResponse response){
+    public String logout(HttpServletRequest request, HttpServletResponse response){
 
         HttpSession session = request.getSession(false); //session 가져옴. false --> session이 없어도 생성하지 않음
         if (session != null){ // session이 null이 아니라면 session의 모든 데이터 삭제
@@ -199,15 +193,18 @@ public class Controller {//윤서 등장
         return "redirect:/login";
     }
 
-    @GetMapping("/product/man/etc") // db에 저장된 크롤링 한 이미지 띄우기
-    public String manPage(Model model, HttpServletRequest request){
+    @GetMapping("/product/man")
+    public String manPage(){
+        return "login/man";
+    }
 
+    @GetMapping("/product/man/etc") // db에 저장된 크롤링 한 이미지 띄우기
+    public String manEtcPage(Model model, HttpServletRequest request){
         request.getSession(false);
 
         List<MainImage> mainImages = crawlingService.mainImageList();
         //List<SubImage> mainImages = crawlingService.mainImageList2();
         model.addAttribute("list", mainImages);
-
 
         return "login/manEtc";
     }
@@ -216,6 +213,18 @@ public class Controller {//윤서 등장
     public String womenPage(Model model){
 
         return "login/women";
+    }
+
+    @GetMapping("/product/women/etc")
+    public String womenEtcPage(Model model, HttpServletRequest request){
+
+        request.getSession(false);
+
+        List<SteadyWomanMainImg> mainImages = crawlingService.mainImageList2();
+        //List<SubImage> mainImages = crawlingService.mainImageList2();
+        model.addAttribute("list2", mainImages);
+
+        return "login/womenEtc";
     }
 
     @GetMapping("/product/detail")
@@ -234,6 +243,8 @@ public class Controller {//윤서 등장
         cookie.setPath("/recently/view");
         cookie.setMaxAge(300);
         response.addCookie(cookie);
+
+
 
         return "login/productDetail"; // 현재 productDetail 페이지가 아니라 userInfo.html 복사 붙여넣기 한 페이지임.
     }
@@ -276,6 +287,7 @@ public class Controller {//윤서 등장
         model.addAttribute("list", map);
 
 
+
         return "login/recentlyView";
     }
 
@@ -287,9 +299,9 @@ public class Controller {//윤서 등장
         return confirm;
     }
 
-    @GetMapping("/help")
+    @GetMapping("aa")
     public String aa(){
-        return "/login/help";
+        return "main";
     }
 
 
@@ -297,83 +309,6 @@ public class Controller {//윤서 등장
     @GetMapping("bb")
     public String aa2(){
         return "productDetail";
-    }
-
-
-
-    @MessageMapping("/sendMessage")
-    @SendTo("/topic/public")
-    public List<String> sendMessage(@Payload String chatMessage) throws IOException {
-        List<String> result = new ArrayList<>();
-        URL url = new URL(apiUrl);
-        String message = chatBotService.getReqMessage(chatMessage);
-        String encodeBase64String = chatBotService.makeSignature(message, secretKey);
-        String URLResult;//받아오는 값이 url이 포함되어있을때
-        //api서버 접속 (서버 -> 서버 통신)
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json;UTF-8");
-        con.setRequestProperty("X-NCP-CHATBOT_SIGNATURE", encodeBase64String);
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.write(message.getBytes("UTF-8"));
-        wr.flush();
-        wr.close();
-        int responseCode = con.getResponseCode();
-        if (responseCode == 200) { // 정상 호출
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(
-                            con.getInputStream(), "UTF-8"));
-            String decodedString;
-            String jsonString = "";
-            while ((decodedString = in.readLine()) != null) {
-                jsonString = decodedString;
-            }
-
-            //받아온 값을 세팅하는 부분
-            JSONParser jsonparser = new JSONParser();
-            try {
-                JSONObject json = (JSONObject) jsonparser.parse(jsonString);
-                JSONArray bubblesArray = (JSONArray) json.get("bubbles");
-                JSONObject bubbles = (JSONObject) bubblesArray.get(0);
-
-                JSONObject data = (JSONObject) bubbles.get("data");
-                String description = "";
-                description = (String) data.get("description");
-                chatMessage = description;
-                result.add(0,chatMessage);
-                URLResult = (String)data.get("url");
-                result.add(1,URLResult);
-            } catch (Exception e) {
-                System.out.println("error");
-                e.printStackTrace();
-            }
-            in.close();
-        } else {  // 에러 발생
-            chatMessage = con.getResponseMessage();
-        }
-//        return chatMessage;
-        System.out.println(result);
-        return result;
-    }
-
-    @GetMapping("/ranking")
-    @ResponseBody
-    public List<com.example.weathercodysummer.Dto.MainImage> ranking(){
-
-        List<MainImage> mainRanking = mainService.mainImageRank();
-        return mainRanking;
-    }
-
-    @GetMapping("/like")
-    @ResponseBody
-    public int likeCount(String imgSrc,String action){
-        System.out.println(imgSrc);
-        System.out.println(action);
-        int resultMain = mainService.countLike(imgSrc,action);
-        System.out.println("controller값:" + resultMain);
-        return resultMain;
     }
 
 

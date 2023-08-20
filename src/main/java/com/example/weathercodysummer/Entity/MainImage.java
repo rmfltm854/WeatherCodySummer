@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
+@Table(name = "man_main")
 public class MainImage {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

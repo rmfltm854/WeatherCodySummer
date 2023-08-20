@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,9 +23,7 @@
 </div>
 <!-- 여기까지 -->
 <nav>
-  <button type="button" style="background-color: transparent; border: none;" onclick="location.href='/main'">
-  <img class="logo" src="/image/logo.png.png">
-  </button>
+  <img class="logo" src="/img/logo.png.png">
   <form class="search-bar" role="search">
     <input class="search-bar2" type="search" placeholder="Search" aria-label="Search">
     <button class="btn" type="submit">Search</button>
@@ -38,32 +36,22 @@
 <div class="navnav">
   <ul class="menu">
     <li class="nav-item">
-      <th:block th:if="${memberInfo != null}">
-        <div class="nav-item">
-          <a class="title" href="/logout"> 로그아웃</a>
-          <a></a>
-        </div>
-        <div>
-          <a class="nav-link" th:if="${memberInfo != null}" href="/userInfo">마이페이지</a>
-        </div>
-      </th:block>
-      <th:block th:if="${a == null}">
-        <div class="depth">
-          <a class="title" href="/login"> 로그인</a>
-        </div>
-      </th:block>
+      <a class="nav-link" href="/login">로그인</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link active" href="/recently/view">최근에 본 상품</a>
+      <a class="nav-link active" href="/userInfo">마이페이지</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/recently/view">최근에 본 상품</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" aria-current="page" href="/product/man">남성</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/product/women">여성</a>
+      <a class="nav-link" href="#">여성</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/help">고객센터</a>
+      <a class="nav-link" href="#">고객센터</a>
     </li>
   </ul>
 </div>
