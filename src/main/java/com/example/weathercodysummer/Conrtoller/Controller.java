@@ -267,6 +267,7 @@ public class Controller {//윤서 등장
         if (session != null) {
             SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
             model.addAttribute("memberInfo", userInfo);
+
         }
 
         if(gender.equals("man")){
@@ -441,29 +442,42 @@ public class Controller {//윤서 등장
     @GetMapping("/submit-review")
     @ResponseBody
     public String review(String reviewText, String imgSrc,HttpServletRequest request){
-        System.out.println(reviewText);
-        System.out.println(imgSrc);
-        Cookie[] cookie = request.getCookies();
-        for(Cookie cok : cookie){
-            System.out.println("++++++++++++++++++++++++++++");
-            System.out.println(cok.getName());
-            System.out.println(cok.getValue());
-            System.out.println("++++++++++++++++++++++++++++");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            String string = userInfo.getUserId().toString();
+            System.out.println(reviewText);
+            crawlingService.saveReview(reviewText, imgSrc, string);
+            System.out.println(imgSrc);
+            Cookie[] cookie = request.getCookies();
+
+            for (Cookie cok : cookie) {
+                System.out.println("++++++++++++++++++++++++++++");
+                System.out.println(cok.getName());
+                System.out.println(cok.getValue());
+                System.out.println("++++++++++++++++++++++++++++");
+            }
         }
         return "성공";
     }
 
     @DeleteMapping ("/delete-review")
     @ResponseBody
-    public String deleteReview(String reviewText, String imgSrc,HttpServletRequest request){
-        System.out.println(reviewText);
-        System.out.println(imgSrc);
-        Cookie[] cookie = request.getCookies();
-        for(Cookie cok : cookie){
-            System.out.println("++++++++++++++++++++++++++++");
-            System.out.println(cok.getName());
-            System.out.println(cok.getValue());
-            System.out.println("++++++++++++++++++++++++++++");
+    public String deleteReview(String reviewText, String imgSrc, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            String string = userInfo.getUserId().toString();
+            System.out.println(reviewText);
+            crawlingService.saveReview(reviewText, imgSrc, string);
+            System.out.println(imgSrc);
+            Cookie[] cookie = request.getCookies();
+            for (Cookie cok : cookie) {
+                System.out.println("++++++++++++++++++++++++++++");
+                System.out.println(cok.getName());
+                System.out.println(cok.getValue());
+                System.out.println("++++++++++++++++++++++++++++");
+            }
         }
         return "성공";
     }

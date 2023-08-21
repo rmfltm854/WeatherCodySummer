@@ -1,9 +1,6 @@
 package com.example.weathercodysummer.Service;
 
-import com.example.weathercodysummer.Entity.MainImage;
-import com.example.weathercodysummer.Entity.SteadyWomanMainImg;
-import com.example.weathercodysummer.Entity.SteadyWomanSubImg;
-import com.example.weathercodysummer.Entity.SubImage;
+import com.example.weathercodysummer.Entity.*;
 import com.example.weathercodysummer.Repository.CrawlingRepository;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Connection;
@@ -276,6 +273,16 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
         SteadyWomanMainImg mainImage = repo.findMainSrc2(id);
         com.example.weathercodysummer.Dto.SteadyWomanMainImg toDto = mainImage.toDto();
         return toDto;
+    }
+
+    public void saveReview(String text, String src, String c){
+        MainImage a = repo.a(src);
+        SignUpEntity b = repo.b(c);
+        Review review = new Review();
+        review.setReviewByImg(a);
+        review.setReviewByUser(b);
+        review.setReview(text);
+        repo.saveReview(review);
     }
 
 

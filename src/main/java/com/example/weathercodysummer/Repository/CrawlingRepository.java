@@ -54,6 +54,24 @@ public class CrawlingRepository {
         return mainImage;
     }
 
+    public MainImage a(String src){
+        MainImage src1 = em.createQuery("select m from MainImage m where m.src =:src", MainImage.class).setParameter("src", src).getSingleResult();
+
+        return src1;
+
+    }
+
+    public SignUpEntity b(String user){
+        SignUpEntity src2 = em.createQuery("select m from SignUpEntity m where m.userId =:user",
+                SignUpEntity.class).setParameter("user", user).getSingleResult();
+
+        return src2;
+
+    }
+
+
+
+
     /**
      * crawling2 -> steadyclub 여자 이미지 크롤링 관련 메서드
      */
@@ -86,6 +104,11 @@ public class CrawlingRepository {
         return mainImage;
     }
 
+
+    @Transactional
+    public void saveReview(Review review){
+        em.persist(review);
+    }
 
 
 }

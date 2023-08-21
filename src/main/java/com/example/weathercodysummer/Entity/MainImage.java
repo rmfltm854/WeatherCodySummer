@@ -26,6 +26,15 @@ public class MainImage {
     @OneToMany(mappedBy = "image")
     private List<SubImage> subImages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "reviewByImg")
+    private List<Review> reviews = new ArrayList<>();
+
+    /**
+    @ManyToOne
+    @JoinColumn(name = "reviews")
+    @Convert(converter = SignUpEntity.class)
+    private List<String> reviews;
+*/
 
     public MainImage(Long id,String src,int likeNum) {
         this.id = id;

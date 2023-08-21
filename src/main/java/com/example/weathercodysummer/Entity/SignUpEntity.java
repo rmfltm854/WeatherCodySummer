@@ -6,6 +6,9 @@ import com.example.weathercodysummer.Dto.Login;
 import com.example.weathercodysummer.Dto.SignUp;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -18,8 +21,12 @@ public class SignUpEntity {
 
     private String userName;
     private String userId;
+
     private String userPassword;
     private String userEmail;
+
+    @OneToMany(mappedBy = "reviewByUser")
+    private List<Review> reviews = new ArrayList<>();
 
     public SignUpEntity(Long id, String userName, String userId, String userPassword, String userEmail) {
         this.id = id;
