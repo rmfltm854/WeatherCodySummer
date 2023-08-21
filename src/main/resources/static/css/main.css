@@ -196,7 +196,7 @@ section{
 
 .container{
     border-top: solid 2px black;
-    margin: 10px auto;
+    margin: auto;
     font-size:24px;
     padding: 20px;
     align-items: center;

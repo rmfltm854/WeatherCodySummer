@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface SteadyWomanRepository extends JpaRepository<SteadyWomanMainImg,Long> {
 
-    @Query(value = "select *, RANK() OVER (ORDER BY wlike_num DESC)as ranking from women_main limit 4;", nativeQuery = true)
+    @Query(value = "select *, RANK() OVER (ORDER BY wlike_num DESC)as ranking from women_main limit 8;", nativeQuery = true)
     List<SteadyWomanMainImg> getRanking();
 
 

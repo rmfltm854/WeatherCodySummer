@@ -68,18 +68,18 @@
     </ul>
 </div>
 <main>
-    <aside>
-        <div class="side_box">CATEGORY
-            <ul class="brand">
-                <li class="bra-item">
-                    <a class="bra-link" href="/product/man">무신사</a>
-                </li>
-                <li class="bra-item">
-                    <a class="bra-link" href="/product/man/etc">기타</a>
-                </li>
-            </ul>
-        </div>
-    </aside>
+<!--    <aside>-->
+<!--        <div class="side_box">CATEGORY-->
+<!--            <ul class="brand">-->
+<!--                <li class="bra-item">-->
+<!--                    <a class="bra-link" href="/product/man">무신사</a>-->
+<!--                </li>-->
+<!--                <li class="bra-item">-->
+<!--                    <a class="bra-link" href="/product/man/etc">기타</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </aside>-->
     <section>
         <div>
             <div class="product-box">남성 BEST상품
@@ -87,7 +87,7 @@
                     <!-- grid -->
                     <div class="row">
                     <th:block th:each="manRank:${manRank}">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="info-box" href="#">
                                 <input type="hidden" th:value="man">
                                 <a href="#" th:href="@{/product/detail(id = ${manRank.id},gender='man')}">
@@ -112,7 +112,7 @@
                     <!-- grid -->
                     <div class="row">
                         <th:block th:each="WomenRank:${WomenRank}">
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="info-box" href="#">
                                     <input type="hidden" th:value="women">
                                     <a href="#" th:href="@{/product/detail(id = ${WomenRank.id}, gender='women')}">
