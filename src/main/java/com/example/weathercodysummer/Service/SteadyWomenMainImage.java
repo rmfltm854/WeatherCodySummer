@@ -51,13 +51,13 @@ public class SteadyWomenMainImage {
         if(stat.equals("like")){
             int num = Wrepository.howLike(src)+1;
             System.out.println("like:" + num);
-            Wrepository.LikeNum(num,src);
+            Wrepository.likeNum(num,src);
             return num;
 
         }if (stat.equals("unlike")) {
             int num = Wrepository.howLike(src)-1;
             System.out.println("like:" + num);
-            resultNum = Wrepository.LikeNum(num,src);
+            resultNum = Wrepository.likeNum(num,src);
             return num;
         }else{
             System.out.println("오류");

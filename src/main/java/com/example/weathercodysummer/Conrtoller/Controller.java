@@ -431,6 +431,7 @@ public class Controller {//윤서 등장
         if(gender.equals("man")){
             resultMain = mainService.countLike(imgSrc,action);
             System.out.println("controller값:" + resultMain);
+            System.out.println(gender);
         }else{
             resultMain = WmainService.countLike(imgSrc,action);
             System.out.println("controller값:" + resultMain);

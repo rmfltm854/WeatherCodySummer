@@ -28,7 +28,7 @@ function handleClickLike(e) {
         const isLiked = e.target.classList.contains('liked'); // 현재 좋아요 상태 확인
         // 이미지 경로 추출
         const imgSrc = e.target.closest('.info-box').querySelector('img').src;
-        const gender = e.target.closest('.info-box').querySelector('input').src;
+        const gender = e.target.closest('.info-box').querySelector('input').value;
         e.target.classList.toggle('liked');
 
         // 서버로 좋아요 상태 및 이미지 이름 전송
@@ -44,6 +44,7 @@ function handleClickLike(e) {
                 // 좋아요 숫자를 like count에 업데이트
                 likeCountElement.textContent = likeCount;
                 console.log(likeCount)
+                console.log(gender)
                 console.log("ajax 인식한다 게이야")
 
                 // likeCountElement.textContent = likeCount;

@@ -85,6 +85,7 @@
 
                         <div class="col-lg-4" th:each="list:${list}">
                             <div class="info-box">
+                                <input type="hidden" th:value="man">
                                 <a href="#" th:href="@{/product/detail(id = ${list.id},gender='man')}">
                                     <img class="img-fluid" th:id="${list.id}" th:src="@{${list.src}}">
                                 </a>

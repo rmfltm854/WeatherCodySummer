@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface MainImageRepo extends JpaRepository<MainImage,Long> {
 
-    @Query(value = "select *, RANK() OVER (ORDER BY like_num DESC)as ranking from man_main limit 3;", nativeQuery = true)
+    @Query(value = "select *, RANK() OVER (ORDER BY like_num DESC)as ranking from man_main limit 4;", nativeQuery = true)
     List<MainImage> getRanking();
 
 
