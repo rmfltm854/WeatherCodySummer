@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +22,9 @@
 </div>
 <!-- 여기까지 -->
 <nav>
+    <button type="button" style="background-color: transparent; border: none;" onclick="location.href='/main'">
     <img class="logo" src="/img/logo.png.png">
+    </button>
     <form class="search-bar" role="search">
         <input class="search-bar2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn" type="submit">Search</button>
@@ -35,22 +37,32 @@
 <div class="navnav">
     <ul class="menu">
         <li class="nav-item">
-            <a class="nav-link" href="/login">로그인</a>
+            <th:block th:if="${memberInfo != null}">
+                <div class="nav-item">
+                    <a class="title" href="/logout"> 로그아웃</a>
+                    <a></a>
+                </div>
+                <div>
+                    <a class="nav-link" th:if="${memberInfo != null}" href="/userInfo">마이페이지</a>
+                </div>
+            </th:block>
+            <th:block th:if="${a == null}">
+                <div class="depth">
+                    <a class="title" href="/login"> 로그인</a>
+                </div>
+            </th:block>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/userInfo">마이페이지</a>
+            <a class="nav-link active" href="/recently/view" >최근에 본 상품</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/recently/view">최근에 본 상품</a>
-        </li>
-        <li class="nav-link active">
             <a class="nav-link" aria-current="page" href="/product/man">남성</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/product/women">여성</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">고객센터</a>
+            <a class="nav-link" href="/help">고객센터</a>
         </li>
     </ul>
 </div>
@@ -59,10 +71,10 @@
         <div class="side_box">CATEGORY
             <ul class="brand">
                 <li class="bra-item">
-                    <a class="bra-link" href="/product/man/musinsa">무신사</a>
+                    <a class="bra-link" href="#">무신사</a>
                 </li>
                 <li class="bra-item">
-                    <a class="bra-link" href="/product/man/etc">기타</a>
+                    <a class="bra-link" href="#">기타</a>
                 </li>
             </ul>
         </div>
