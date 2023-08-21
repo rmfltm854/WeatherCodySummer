@@ -84,7 +84,7 @@
         <div>
           <ul class="tlist">
             <li class="titem">
-              <a class="tlink" href="#">고객센터</a>
+              <a class="tlink" href="/help">고객센터</a>
             </li>
             <li class="titem">
               <a class="tlink" href="/logout">로그아웃</a>
@@ -102,6 +102,7 @@
         <div class="text-box">
           <div>
             <div class="id-name" th:if="${userInfo} != null" th:text="${userInfo.getUserId()}"></div>
+            <div class="id-name" th:if="${userInfo} == null" th:text="회원이 아닙니다"></div>
           </div>
 
           <div>
