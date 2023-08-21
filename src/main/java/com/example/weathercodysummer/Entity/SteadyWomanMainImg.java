@@ -22,13 +22,16 @@ public class SteadyWomanMainImg {
 
     private String src;
 
+    private int WlikeNum;
+
     @OneToMany(mappedBy = "images")
     private List<SteadyWomanSubImg> subImages = new ArrayList<>();
 
 
-    public SteadyWomanMainImg(Long id,String src) {
+    public SteadyWomanMainImg(Long id,String src,int WlikeNum) {
         this.id = id;
         this.src = src;
+        this.WlikeNum = WlikeNum;
     }
 
     public SteadyWomanMainImg(String src){
@@ -38,6 +41,6 @@ public class SteadyWomanMainImg {
 
 
     public com.example.weathercodysummer.Dto.SteadyWomanMainImg toDto(){
-        return new com.example.weathercodysummer.Dto.SteadyWomanMainImg(id, src);
+        return new com.example.weathercodysummer.Dto.SteadyWomanMainImg(id, src,WlikeNum);
     }
 }

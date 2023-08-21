@@ -11,13 +11,16 @@ public class SteadyWomanMainImg {
 
     private String src;
 
-    public SteadyWomanMainImg(Long id, String src) {
+    private int WlikeNum;
+
+    public SteadyWomanMainImg(Long id, String src, int WlikeNum) {
         this.id = id;
         this.src = src;
+        this.WlikeNum = WlikeNum;
     }
 
 
     public com.example.weathercodysummer.Entity.SteadyWomanMainImg toEntity(){
-        return new com.example.weathercodysummer.Entity.SteadyWomanMainImg(null,src);
+        return new com.example.weathercodysummer.Entity.SteadyWomanMainImg(id,src,WlikeNum);
     }
 }

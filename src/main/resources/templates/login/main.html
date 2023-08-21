@@ -92,7 +92,8 @@
                     <th:block th:each="manRank:${manRank}">
                         <div class="col-lg-4">
                             <div class="info-box" href="#">
-                                <a href="#" th:href="@{/product/detail(id = ${manRank.id})}">
+                                <input type="hidden" th:value="man">
+                                <a href="#" th:href="@{/product/detail(id = ${manRank.id},gender='man')}">
                                 <img class="img-fluid" th:id="${manRank.id}" th:src="@{${manRank.src}}">
                                 </a>
                                 <div class="info">
@@ -113,41 +114,21 @@
                 <div class="container">
                     <!-- grid -->
                     <div class="row">
-
-                        <div class="col-lg-4">
-                            <a class="info-box" href="#">
-                                <img class="img-fluid" src="image/First.jpg">
-                                <div class="info">
-                                    <p>코디 이름</p>
-                                    <button class="like">♥</button>
-                                    <span class="like-name">좋아요</span>
+                        <th:block th:each="WomenRank:${WomenRank}">
+                            <div class="col-lg-4">
+                                <div class="info-box" href="#">
+                                    <input type="hidden" th:value="women">
+                                    <a href="#" th:href="@{/product/detail(id = ${WomenRank.id},gender='women')}">
+                                        <img class="img-fluid" th:id="${WomenRank.id}" th:src="@{${WomenRank.src}}">
+                                    </a>
+                                    <div class="info">
+                                        <p>코디 이름</p>
+                                        <button class="like">♥</button>
+                                        <span class="like-name like-count" th:text="${WomenRank.WlikeNum}"></span>
+                                    </div>
                                 </div>
-                            </a>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <a class="info-box" href="#">
-                                <img class="img-fluid" src="image/second.jpg">
-                                <div class="info">
-                                    <p>코디 이름</p>
-                                    <button class="like">♥</button>
-                                    <span class="like-name">좋아요</span>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <a class="info-box" href="#">
-                                <img class="img-fluid" src="image/Third.jpg">
-                                <div class="info">
-                                    <p>코디 이름</p>
-                                    <button class="like">♥</button>
-                                    <span class="like-name">좋아요</span>
-                                </div>
-                            </a>
-                        </div>
-
-
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </div>

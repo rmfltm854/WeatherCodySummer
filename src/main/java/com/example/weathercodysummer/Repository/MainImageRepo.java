@@ -10,16 +10,16 @@ import java.util.List;
 
 public interface MainImageRepo extends JpaRepository<MainImage,Long> {
 
-    @Query(value = "select *, RANK() OVER (ORDER BY like_num DESC)as ranking from main_image limit 3;", nativeQuery = true)
+    @Query(value = "select *, RANK() OVER (ORDER BY like_num DESC)as ranking from man_main limit 3;", nativeQuery = true)
     List<MainImage> getRanking();
 
 
-    @Query(value = "update main_image set like_Num=? where src = ?",nativeQuery = true)
+    @Query(value = "update man_main set like_Num=? where src = ?",nativeQuery = true)
     @Modifying
     @Transactional
     int LikeNum(int likeNum,String src);
 
-    @Query(value = "select like_Num from main_image where src= ?",nativeQuery = true)
+    @Query(value = "select like_Num from man_main where src= ?",nativeQuery = true)
     @Transactional
     int howLike(String src);
 

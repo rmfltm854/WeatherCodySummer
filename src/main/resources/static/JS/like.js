@@ -28,13 +28,14 @@ function handleClickLike(e) {
         const isLiked = e.target.classList.contains('liked'); // 현재 좋아요 상태 확인
         // 이미지 경로 추출
         const imgSrc = e.target.closest('.info-box').querySelector('img').src;
+        const gender = e.target.closest('.info-box').querySelector('input').src;
         e.target.classList.toggle('liked');
 
         // 서버로 좋아요 상태 및 이미지 이름 전송
         $.ajax({
             url: "/like",
             method: "GET",
-            data: {imgSrc: imgSrc, action: isLiked ? "unlike" : "like"}, // 좋아요 상태에 따라 "like" 또는 "unlike" 값 전송,, 쿠키값 보내야 한다고 하면 추가,cookieValue: getCookie('loggedIn')
+            data: {imgSrc: imgSrc, action: isLiked ? "unlike" : "like", gender : gender}, // 좋아요 상태에 따라 "like" 또는 "unlike" 값 전송,, 쿠키값 보내야 한다고 하면 추가,cookieValue: getCookie('loggedIn')
             dataType: "json",
             success: function (response) {
                 const likeCount = parseInt(response); //response.count에 있는 숫자를 가져와서 정수로 바꿔서 likeCount라는 이름으로 저장
