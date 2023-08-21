@@ -23,7 +23,7 @@
 <!-- 여기까지 -->
 <nav>
     <button type="button" style="background-color: transparent; border: none;" onclick="location.href='/main'">
-    <img class="logo" src="/img/logo.png.png">
+    <img class="logo" src="/image/logo.png.png">
     </button>
     <form class="search-bar" role="search">
         <input class="search-bar2" type="search" placeholder="Search" aria-label="Search">
@@ -36,32 +36,30 @@
 
 <div class="navnav">
     <ul class="menu">
-        <th:block th:if="${userInfo} == null">
-        <li class="nav-item">
-            <a class="nav-link" href="/login">로그인</a>
-        </li>
-        </th:block>
-        <th:block th:if="${userInfo} != null">
+        <th:block th:if="${userInfo != null}">
             <li class="nav-item">
-                <a class="nav-link" href="/logout">로그아웃</a>
+                <a class="title" href="/logout"> 로그아웃</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:if="${userInfo != null}" href="/userInfo">마이페이지</a>
             </li>
         </th:block>
-        <th:block th:if="${userInfo} != null">
-        <li class="nav-item">
-            <a class="nav-link" href="/userInfo">마이페이지</a>
-        </li>
+        <th:block th:if="${userInfo == null}">
+            <li class="nav-item">
+                <a class="title" href="/login"> 로그인</a>
+            </li>
         </th:block>
         <li class="nav-item">
             <a class="nav-link active" href="/recently/view"  >최근에 본 상품</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">남성</a>
+            <a class="nav-link" aria-current="page" href="/product/man">남성</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">여성</a>
+            <a class="nav-link" href="/product/women">여성</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">고객센터</a>
+            <a class="nav-link" href="/help">고객센터</a>
         </li>
     </ul>
 </div>
@@ -70,7 +68,7 @@
         <div class="side_box">CATEGORY
             <ul class="brand">
                 <li class="bra-item">
-                    <a class="bra-link" href="#">무신사</a>
+                    <a class="bra-link" href="/product/man">무신사</a>
                 </li>
                 <li class="bra-item">
                     <a class="bra-link" href="/product/man/etc">기타</a>

@@ -36,24 +36,21 @@
 
 <div class="navnav">
   <ul class="menu">
+    <th:block th:if="${memberInfo != null}">
+      <li class="nav-item">
+        <a class="title" href="/logout"> 로그아웃</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:if="${memberInfo != null}" href="/userInfo">마이페이지</a>
+      </li>
+    </th:block>
+    <th:block th:if="${memberInfo == null}">
+      <li class="nav-item">
+        <a class="title" href="/login"> 로그인</a>
+      </li>
+    </th:block>
     <li class="nav-item">
-      <th:block th:if="${memberInfo != null}">
-        <div class="nav-item">
-          <a class="title" href="/logout"> 로그아웃</a>
-          <a></a>
-        </div>
-        <div>
-          <a class="nav-link" th:if="${memberInfo != null}" href="/userInfo">마이페이지</a>
-        </div>
-      </th:block>
-      <th:block th:if="${a == null}">
-        <div class="depth">
-          <a class="title" href="/login"> 로그인</a>
-        </div>
-      </th:block>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link active" href="/recently/view">최근에 본 상품</a>
+      <a class="nav-link" href="/recently/view">최근에 본 상품</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" aria-current="page" href="/product/man">남성</a>

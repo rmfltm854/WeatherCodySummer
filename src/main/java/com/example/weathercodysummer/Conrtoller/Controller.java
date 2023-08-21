@@ -120,7 +120,6 @@ public class Controller {//윤서 등장
         List<SteadyWomanMainImg> WomenRanking = WmainService.mainImageRank();
         model.addAttribute("manRank",mainRanking);
         model.addAttribute("WomenRank",WomenRanking);
-        model.addAttribute("a", userInfo);
         //System.out.println(session.getAttribute("loginMember"));
         return "login/main";
     }
@@ -207,11 +206,24 @@ public class Controller {//윤서 등장
         signUpService.update(signUp); // 회원정보 수정 메소드
         return "redirect:/login";
     }
+    @GetMapping("/product/man")
+    public String manMusinsaPage(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false); // session 받아오기
+        if (session != null) {
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("memberInfo", userInfo);
+        }
+        return "/login/man";
+    }
 
     @GetMapping("/product/man/etc") // db에 저장된 크롤링 한 이미지 띄우기
-    public String manPage(Model model, HttpServletRequest request){
+    public String manSteadyPage(Model model, HttpServletRequest request){
 
-        request.getSession(false);
+        HttpSession session = request.getSession(false); // session 받아오기
+        if (session != null) {
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("memberInfo", userInfo);
+        }
 
         List<MainImage> mainImages = crawlingService.mainImageList();
         //List<SubImage> mainImages = crawlingService.mainImageList2();
@@ -222,13 +234,41 @@ public class Controller {//윤서 등장
     }
 
     @GetMapping("/product/women")
-    public String womenPage(Model model){
-
+    public String womanMusinsaPage(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession(false); // session 받아오기
+        if (session != null) {
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("memberInfo", userInfo);
+        }
         return "login/women";
+    }
+
+    @GetMapping("/product/women/etc") // db에 저장된 크롤링 한 이미지 띄우기
+    public String womenSteadyPage(Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession(false); // session 받아오기
+        if (session != null) {
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("memberInfo", userInfo);
+        }
+
+        List<SteadyWomanMainImg> mainImages = crawlingService.mainImageList2();
+        //List<SubImage> mainImages = crawlingService.mainImageList2();
+        model.addAttribute("list", mainImages);
+
+
+        return "login/womenEtc";
     }
 
     @GetMapping("/product/detail")
     public String detailPage(@RequestParam("id") Long id, Model model, HttpServletRequest request,HttpServletResponse response,String gender){ //상품 상세 메소드 --> view 가 아직 없어서 userInfo.html 복사 후 사용. 백앤드 로직은 완벽 구현
+
+        HttpSession session = request.getSession(false); // session 받아오기
+        if (session != null) {
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("memberInfo", userInfo);
+        }
+
         if(gender.equals("man")){
             MainImage mainSrc = crawlingService.findMainSrc(id);
             List<SubImage> detailImages = crawlingService.detail(id);
@@ -250,16 +290,11 @@ public class Controller {//윤서 등장
         }
 
 
-        request.getSession(false); // session 받아오기
-        //SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER); // session에 담긴 사용자 정보를 SignUp에 담기
-        //model.addAttribute("userInfo", userInfo); // SignUp을 view에 넘기기
-
-
         return "login/productDetail"; // 현재 productDetail 페이지가 아니라 userInfo.html 복사 붙여넣기 한 페이지임.
     }
 
     @GetMapping("/recently/view")
-    public String recentlyview(HttpServletRequest request, Model model){
+    public String recentlyView(HttpServletRequest request, Model model){
         HttpSession session = request.getSession(false);
         if (session != null){
             SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
