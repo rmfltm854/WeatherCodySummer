@@ -69,7 +69,7 @@ function RespondMessage(message) {
     $("#chatForm")[0].reset();
 }
 
-$(function () {
+$(function() {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });

@@ -69,6 +69,12 @@ public class CrawlingRepository {
 
     }
 
+    public SteadyWomanMainImg womenReview(String src){
+        SteadyWomanMainImg src1 = em.createQuery("select m from SteadyWomanMainImg m where m.src =:src", SteadyWomanMainImg.class).setParameter("src", src).getSingleResult();
+        return src1;
+
+    }
+
 
 
 

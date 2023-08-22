@@ -54,6 +54,9 @@ public class Controller {//윤서 등장
     @Autowired
     SteadyWomenMainImage WmainService;
 
+    @Autowired
+    reviewService rService;
+
     @GetMapping("/crawling2")
     @ResponseBody
     public List<HashMap<String,List<String>>> Test(){
@@ -269,12 +272,15 @@ public class Controller {//윤서 등장
             model.addAttribute("memberInfo", userInfo);
 
         }
-
         if(gender.equals("man")){
             MainImage mainSrc = crawlingService.findMainSrc(id);
             List<SubImage> detailImages = crawlingService.detail(id);
+            List<ReviewDto> rDto = rService.getReview(mainSrc.getSrc());
+            model.addAttribute("review",rDto);
             model.addAttribute("mainSrc", mainSrc);
             model.addAttribute("list", detailImages);
+            model.addAttribute("gender",gender);
+            System.out.println(gender);
             Cookie cookie = new Cookie(id.toString(), mainSrc.getSrc());
             cookie.setPath("/recently/view");
             cookie.setMaxAge(300);
@@ -282,8 +288,12 @@ public class Controller {//윤서 등장
         } else{
             SteadyWomanMainImg mainSrc = WmainService.findMainSrc(id);
             List<SteadyWomanSubImg> detailImages = WmainService.detail(id);
+            List<ReviewDto> rDto = rService.getReview(mainSrc.getSrc());
+            model.addAttribute("review",rDto);
             model.addAttribute("mainSrc", mainSrc);
             model.addAttribute("list", detailImages);
+            model.addAttribute("gender",gender);
+            System.out.println(gender);
             Cookie cookie = new Cookie(id.toString(), mainSrc.getSrc());
             cookie.setPath("/recently/view");
             cookie.setMaxAge(300);
@@ -441,44 +451,102 @@ public class Controller {//윤서 등장
     }
     @GetMapping("/submit-review")
     @ResponseBody
-    public String review(String reviewText, String imgSrc,HttpServletRequest request){
+    public String review(String reviewText, String imgSrc,HttpServletRequest request,String gender,Model model){
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
-            String string = userInfo.getUserId().toString();
-            System.out.println(reviewText);
-            crawlingService.saveReview(reviewText, imgSrc, string);
-            System.out.println(imgSrc);
-            Cookie[] cookie = request.getCookies();
+        if(gender.equals("man")){
+            if (session != null) {
+                System.out.println("review실행중");
+                SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+                String string = userInfo.getUserId().toString();
+                System.out.println(reviewText);
+                System.out.println(imgSrc);
+                crawlingService.saveReview(reviewText, imgSrc, string,gender);
+                System.out.println(imgSrc);
+                List<ReviewDto> rDto = rService.getReview(imgSrc);//img 주소를 받아서 그사진에대한 리뷰를 상세페이지로 넘어갈때 보내준다.
+                model.addAttribute("review",rDto);
+                for(ReviewDto dto : rDto){
+                    System.out.println("--------------------------");
+                    dto.getReview();
+                    dto.getSrc();
+                    dto.getReview_id();
+                    System.out.println("--------------------------");
+                }
+                Cookie[] cookie = request.getCookies();
+                for (Cookie cok : cookie) {
+                    System.out.println("++++++++++++++++++++++++++++");
+                    System.out.println(cok.getName());
+                    System.out.println(cok.getValue());
+                    System.out.println("++++++++++++++++++++++++++++");
+                }
+            }
+        } else{
+            if (session != null) {
+                SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+                String string = userInfo.getUserId().toString();
+                System.out.println(reviewText);
+                System.out.println(imgSrc);
+                crawlingService.saveReview(reviewText, imgSrc, string,gender);
+                System.out.println(imgSrc);
+                List<ReviewDto> rDto = rService.getReview(imgSrc);//img 주소를 받아서 그사진에대한 리뷰를 상세페이지로 넘어갈때 보내준다.
+                model.addAttribute("review",rDto);
+                for(ReviewDto dto : rDto){
+                    System.out.println("--------------------------");
+                    dto.getReview();
+                    dto.getSrc();
+                    dto.getReview_id();
+                    System.out.println("--------------------------");
+                }
+                Cookie[] cookie = request.getCookies();
 
-            for (Cookie cok : cookie) {
-                System.out.println("++++++++++++++++++++++++++++");
-                System.out.println(cok.getName());
-                System.out.println(cok.getValue());
-                System.out.println("++++++++++++++++++++++++++++");
+                for (Cookie cok : cookie) {
+                    System.out.println("++++++++++++++++++++++++++++");
+                    System.out.println(cok.getName());
+                    System.out.println(cok.getValue());
+                    System.out.println("++++++++++++++++++++++++++++");
+                }
             }
         }
+
         return "성공";
     }
 
     @DeleteMapping ("/delete-review")
     @ResponseBody
-    public String deleteReview(String reviewText, String imgSrc, HttpServletRequest request){
+    public String deleteReview(String reviewText, String imgSrc, HttpServletRequest request, String gender){
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
-            String string = userInfo.getUserId().toString();
-            System.out.println(reviewText);
-            crawlingService.saveReview(reviewText, imgSrc, string);
-            System.out.println(imgSrc);
-            Cookie[] cookie = request.getCookies();
-            for (Cookie cok : cookie) {
-                System.out.println("++++++++++++++++++++++++++++");
-                System.out.println(cok.getName());
-                System.out.println(cok.getValue());
-                System.out.println("++++++++++++++++++++++++++++");
+        if(gender.equals("man")){
+            if (session != null) {
+                SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+                String string = userInfo.getUserId().toString();
+                System.out.println(reviewText);
+                crawlingService.saveReview(reviewText, imgSrc, string,gender);
+                System.out.println(imgSrc);
+                Cookie[] cookie = request.getCookies();
+                for (Cookie cok : cookie) {
+                    System.out.println("++++++++++++++++++++++++++++");
+                    System.out.println(cok.getName());
+                    System.out.println(cok.getValue());
+                    System.out.println("++++++++++++++++++++++++++++");
+                }
             }
+        } else if (gender.equals("women")) {
+            if (session != null) {
+                SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+                String string = userInfo.getUserId().toString();
+                System.out.println(reviewText);
+                crawlingService.saveReview(reviewText, imgSrc, string,gender);
+                System.out.println(imgSrc);
+                Cookie[] cookie = request.getCookies();
+                for (Cookie cok : cookie) {
+                    System.out.println("++++++++++++++++++++++++++++");
+                    System.out.println(cok.getName());
+                    System.out.println(cok.getValue());
+                    System.out.println("++++++++++++++++++++++++++++");
+                }
+            }
+
         }
+
         return "성공";
     }
 

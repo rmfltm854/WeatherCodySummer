@@ -23,31 +23,21 @@ button.addEventListener('click', function (e) {
 
         const reviewText = $("textarea[name='reveiw']").val(); // 리뷰 텍스트 가져오기
         const imgSrc = $(".main-pro img").attr("src"); // 이미지 경로 가져오기
+        const gender = $('#gender').val();
 
         // Ajax를 사용하여 리뷰 작성 요청 보내기
         $.ajax({
             type: "GET",
             url: "/submit-review",
-            data: {reviewText: reviewText, imgSrc: imgSrc, cookieValue: getCookie('loggedIn')}, // 리뷰 텍스트와 이미지 경로 함께 전송
-            dataType: "json",
-            success: function (response) {
-                console.log("++++++++++++++++++++++++++++")
-                if (response.success) {
-                    // 리뷰 작성이 성공한 경우
-                    var newReview = $("<div class='re-box'>").text(response.reviewText);
-                    $(".review-display").append(newReview); // 리뷰를 화면에 추가
-                    $("textarea[name='reveiw']").val(""); // 리뷰 입력란 비우기
-                } else {
-                    // 리뷰 작성이 실패한 경우
-                    console.log("리뷰 작성 실패")
-                    alert("리뷰 작성에 실패했습니다.");
+            data: {reviewText: reviewText, imgSrc: imgSrc, cookieValue: getCookie('loggedIn'),gender : gender}, // 리뷰 텍스트와 이미지 경로 함께 전송
+            dataType: "text",
+            success: function (data) {
+                if(data === "성공"){
+                    location.reload();
                 }
             },
             error: function () {
-                console.log()
-                // Ajax 요청 실패 시 처리
-                alert("리뷰작성중 서버와의 통신 중 오류가 발생했습니다.");
-
+                alert("error");
             },
         });
         // 버튼을 리뷰 삭제 버튼으로 변경
@@ -80,7 +70,7 @@ button.addEventListener('click', function (e) {
             });
 
         });
-    } else if (loggedIn === null) {
+    } else{
         console.log('로그인되어 있지 않습니다.');
         alert('로그인을 해주세요.');
     }

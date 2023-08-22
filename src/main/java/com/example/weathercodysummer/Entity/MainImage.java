@@ -26,8 +26,8 @@ public class MainImage {
     @OneToMany(mappedBy = "image")
     private List<SubImage> subImages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "reviewByImg")
-    private List<Review> reviews = new ArrayList<>();
+//    @OneToMany(mappedBy = "reviewByImg")
+//    private List<Review> reviews = new ArrayList<>();
 
     /**
     @ManyToOne

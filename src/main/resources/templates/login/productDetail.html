@@ -33,7 +33,6 @@
     <span class="chart-change up">▲</span>
   </div>
 </nav>
-
 <div class="navnav">
   <ul class="menu">
     <th:block th:if="${memberInfo != null}">
@@ -79,6 +78,7 @@
   <section>
     <div>
       <div class="product-box">PRODUCT
+        <input type="hidden" th:id ="gender" th:value="${gender}">
         <div class="out-box">
 
           <div class="main-pro">
@@ -123,7 +123,14 @@
 
         <button type="submit" class="sign-but review-write-button">리뷰 작성</button>
       </form>
-      <div class="review-display"></div>
+      <div style="width: 1000px;height: 1000px;">
+        <ol>
+          <th:block th:each="review : ${review}">
+            <li th:id="review" style="width: 1000px;height: 100px;border-bottom: 3px solid #FE980F; border-top: 3px solid #FE980F;font-size: 3rem;" th:text="${review.review}"></li>
+          </th:block>
+
+        </ol>
+      </div>
     </div>
 
 

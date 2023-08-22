@@ -275,14 +275,26 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
         return toDto;
     }
 
-    public void saveReview(String text, String src, String c){
-        MainImage a = repo.a(src);
-        SignUpEntity b = repo.b(c);
-        Review review = new Review();
-        review.setReviewByImg(a);
-        review.setReviewByUser(b);
-        review.setReview(text);
-        repo.saveReview(review);
+    public void saveReview(String text, String src, String c,String gender){
+        if(gender.equals("man")){
+            SignUpEntity b = repo.b(c);
+            Review review = new Review();
+            review.setSrc(src);
+            review.setReviewByUser(b);
+            review.setReview(text);
+            repo.saveReview(review);
+        } else if (gender.equals("women")) {
+            SteadyWomanMainImg a = repo.womenReview(src);
+            SignUpEntity b = repo.b(c);
+            Review review = new Review();
+            review.setSrc(src);
+            review.setReviewByUser(b);
+            review.setReview(text);
+            repo.saveReview(review);
+
+
+        }
+
     }
 
 
