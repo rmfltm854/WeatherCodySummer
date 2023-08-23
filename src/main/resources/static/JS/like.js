@@ -23,7 +23,7 @@ function updateLikeCount(element, likeCount) {
 // 좋아요 버튼 클릭 처리 함수
 function handleClickLike(e) {
     // 로그인 여부 확인
-    const loggedIn = getCookie('loggedIn');
+    const loggedIn = getCookie('userInfo');
     if (loggedIn !== null) {
         const isLiked = e.target.classList.contains('liked'); // 현재 좋아요 상태 확인
         // 이미지 경로 추출

@@ -2,10 +2,12 @@ package com.example.weathercodysummer.Repository;
 
 import com.example.weathercodysummer.Entity.MainImage;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 public interface MainImageRepo extends JpaRepository<MainImage,Long> {
@@ -22,5 +24,7 @@ public interface MainImageRepo extends JpaRepository<MainImage,Long> {
     @Query(value = "select like_Num from man_main where src= ?",nativeQuery = true)
     @Transactional
     int howLike(String src);
+
+//    Page<MainImage> findAll(Pageable pageable);
 
 }

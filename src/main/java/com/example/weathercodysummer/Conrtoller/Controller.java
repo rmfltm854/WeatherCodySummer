@@ -1,5 +1,7 @@
 package com.example.weathercodysummer.Conrtoller;
 import com.example.weathercodysummer.Dto.*;
+import com.example.weathercodysummer.Repository.CrawlingRepository;
+import com.example.weathercodysummer.Repository.MainImageRepo;
 import com.example.weathercodysummer.Service.*;
 import com.example.weathercodysummer.session.SessionConst;
 import jakarta.servlet.http.Cookie;
@@ -13,6 +15,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -56,6 +62,9 @@ public class Controller {//윤서 등장
 
     @Autowired
     reviewService rService;
+
+    @Autowired
+    MainImageRepo repo;
 
     @GetMapping("/crawling2")
     @ResponseBody
@@ -310,8 +319,6 @@ public class Controller {//윤서 등장
         if (session != null){
             SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
             model.addAttribute("userInfo", userInfo);
-            System.out.println("==========");
-            System.out.println(userInfo.toString());
         }
         //ArrayList mainSrc = (ArrayList) session.getAttribute("mainSrc");
         //model.addAttribute("mainSrc", mainSrc);
@@ -326,8 +333,6 @@ public class Controller {//윤서 등장
                 a.add(value);
                 }
 */
-
-
         if (cookies != null){
             for (int i=0; i<cookies.length; i++){
                 String value = cookies[i].getValue().toString();
@@ -349,7 +354,6 @@ public class Controller {//윤서 등장
     @ResponseBody
     public String mailCheck(String email,Model model)throws Exception{
         String confirm = emailService.sendSimpleMessage(email);
-        System.out.println(confirm);
         return confirm;
     }
 
@@ -412,7 +416,6 @@ public class Controller {//윤서 등장
                 URLResult = (String)data.get("url");
                 result.add(1,URLResult);
             } catch (Exception e) {
-                System.out.println("error");
                 e.printStackTrace();
             }
             in.close();
@@ -420,7 +423,6 @@ public class Controller {//윤서 등장
             chatMessage = con.getResponseMessage();
         }
 //        return chatMessage;
-        System.out.println(result);
         return result;
     }
 
@@ -435,17 +437,11 @@ public class Controller {//윤서 등장
     @GetMapping("/like")
     @ResponseBody
     public int likeCount(String imgSrc,String action, String gender){
-        System.out.println(imgSrc);
-        System.out.println(action);
-        System.out.println(gender);
         int resultMain = 0;
         if(gender.equals("man")){
             resultMain = mainService.countLike(imgSrc,action);
-            System.out.println("controller값:" + resultMain);
-            System.out.println(gender);
         }else{
             resultMain = WmainService.countLike(imgSrc,action);
-            System.out.println("controller값:" + resultMain);
         }
         return resultMain;
     }
@@ -455,55 +451,23 @@ public class Controller {//윤서 등장
         HttpSession session = request.getSession(false);
         if(gender.equals("man")){
             if (session != null) {
-                System.out.println("review실행중");
                 SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
                 String string = userInfo.getUserId().toString();
-                System.out.println(reviewText);
                 System.out.println(imgSrc);
                 crawlingService.saveReview(reviewText, imgSrc, string,gender);
-                System.out.println(imgSrc);
                 List<ReviewDto> rDto = rService.getReview(imgSrc);//img 주소를 받아서 그사진에대한 리뷰를 상세페이지로 넘어갈때 보내준다.
                 model.addAttribute("review",rDto);
-                for(ReviewDto dto : rDto){
-                    System.out.println("--------------------------");
-                    dto.getReview();
-                    dto.getSrc();
-                    dto.getReview_id();
-                    System.out.println("--------------------------");
-                }
                 Cookie[] cookie = request.getCookies();
-                for (Cookie cok : cookie) {
-                    System.out.println("++++++++++++++++++++++++++++");
-                    System.out.println(cok.getName());
-                    System.out.println(cok.getValue());
-                    System.out.println("++++++++++++++++++++++++++++");
-                }
             }
         } else{
             if (session != null) {
                 SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
                 String string = userInfo.getUserId().toString();
-                System.out.println(reviewText);
-                System.out.println(imgSrc);
                 crawlingService.saveReview(reviewText, imgSrc, string,gender);
-                System.out.println(imgSrc);
+
                 List<ReviewDto> rDto = rService.getReview(imgSrc);//img 주소를 받아서 그사진에대한 리뷰를 상세페이지로 넘어갈때 보내준다.
                 model.addAttribute("review",rDto);
-                for(ReviewDto dto : rDto){
-                    System.out.println("--------------------------");
-                    dto.getReview();
-                    dto.getSrc();
-                    dto.getReview_id();
-                    System.out.println("--------------------------");
-                }
                 Cookie[] cookie = request.getCookies();
-
-                for (Cookie cok : cookie) {
-                    System.out.println("++++++++++++++++++++++++++++");
-                    System.out.println(cok.getName());
-                    System.out.println(cok.getValue());
-                    System.out.println("++++++++++++++++++++++++++++");
-                }
             }
         }
 
@@ -518,31 +482,18 @@ public class Controller {//윤서 등장
             if (session != null) {
                 SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
                 String string = userInfo.getUserId().toString();
-                System.out.println(reviewText);
                 crawlingService.saveReview(reviewText, imgSrc, string,gender);
                 System.out.println(imgSrc);
                 Cookie[] cookie = request.getCookies();
-                for (Cookie cok : cookie) {
-                    System.out.println("++++++++++++++++++++++++++++");
-                    System.out.println(cok.getName());
-                    System.out.println(cok.getValue());
-                    System.out.println("++++++++++++++++++++++++++++");
-                }
             }
         } else if (gender.equals("women")) {
             if (session != null) {
                 SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
                 String string = userInfo.getUserId().toString();
-                System.out.println(reviewText);
                 crawlingService.saveReview(reviewText, imgSrc, string,gender);
                 System.out.println(imgSrc);
                 Cookie[] cookie = request.getCookies();
-                for (Cookie cok : cookie) {
-                    System.out.println("++++++++++++++++++++++++++++");
-                    System.out.println(cok.getName());
-                    System.out.println(cok.getValue());
-                    System.out.println("++++++++++++++++++++++++++++");
-                }
+
             }
 
         }
@@ -550,4 +501,14 @@ public class Controller {//윤서 등장
         return "성공";
     }
 
+   @GetMapping("/productList")
+    public String product(@PageableDefault(page=0,size=16,direction = Sort.Direction.DESC)Pageable pageable, Model model,String gender){
+       long total = repo.count();
+       int button = (int)total/16 +1;
+       model.addAttribute("button",button);
+        List<com.example.weathercodysummer.Entity.MainImage> page = repo.findAll(pageable).getContent();
+        model.addAttribute("manProduct",page);
+        return "login/man";
+
+   }
 }
