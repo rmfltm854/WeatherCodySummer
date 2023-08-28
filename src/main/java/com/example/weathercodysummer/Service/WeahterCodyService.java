@@ -15,7 +15,7 @@ public class WeahterCodyService {
     CrawlingService jms;
 
     public void Test(){
-        List<HashMap<String,List<String>>> totalResultURL = jms.main5();//main5메소드 반환받는다.
+        List<HashMap<String,List<String>>> totalResultURL = jms.steadyClubMan();//main5메소드 반환받는다.
 
         for(int i = 0;i<totalResultURL.size();i++){
             String mainImageURL = totalResultURL.get(i).keySet().toString();

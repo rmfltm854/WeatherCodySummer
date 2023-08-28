@@ -66,20 +66,26 @@ public class Controller {//윤서 등장
     @Autowired
     MainImageRepo repo;
 
+
+    @GetMapping("/crawlingBy4xr")
+    @ResponseBody
+    public List<String> fourMan(){ // 4xr 남자 크롤링 메서드
+        List<String> list = crawlingService.fourMan();
+        return list;
+    }
+
     @GetMapping("/crawling2")
     @ResponseBody
-    public List<HashMap<String,List<String>>> Test(){
-//        List<String> list = service4.main5();
-        List<HashMap<String,List<String>>> list = crawlingService.main2();
-        crawlingService.main5();
+    public List<HashMap<String,List<String>>> crawlingBySteadyMan(){ // steady 남자 크롤링 메서드
+        List<HashMap<String,List<String>>> list = crawlingService.steadyClubWoman();
         return list;
     }
 
     @GetMapping("/crawling")
     @ResponseBody
-    public List<HashMap<String,List<String>>> Test2() {
+    public List<HashMap<String,List<String>>> crawlingBySteadyWoman() { // steady 여자 크롤링 메서드
 //        List<String> list = service4.main5();
-        List<HashMap<String, List<String>>> list = crawlingService.main5();
+        List<HashMap<String, List<String>>> list = crawlingService.steadyClubMan();
         return list;
     }
 
@@ -121,29 +127,32 @@ public class Controller {//윤서 등장
     }
 
     @GetMapping("/main")
-    public String getMainPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) SignUp userInfo, Model model,HttpServletResponse response){
+    public String getMainPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) SignUp userInfo,
+                              Model model,HttpServletResponse response){ // mainPage 매핑 -> Get
+
         if (userInfo != null){ // session에 담긴 memberInfo의 값이 있으면 view에 memberInfo를 넘겨준다.
             model.addAttribute("memberInfo", userInfo);
             Cookie cookie = new Cookie("userInfo","loginSuccess");
             response.addCookie(cookie);
-
         }
+
         List<MainImage> mainRanking = mainService.mainImageRank();
         List<SteadyWomanMainImg> WomenRanking = WmainService.mainImageRank();
         model.addAttribute("manRank",mainRanking);
         model.addAttribute("WomenRank",WomenRanking);
-        //System.out.println(session.getAttribute("loginMember"));
+
         return "login/main";
     }
 
     @GetMapping("/login")
-    public String getLogPage(@ModelAttribute("login") Login login){
+    public String getLogPage(@ModelAttribute("login") Login login){ // 로그인 페이지 매핑
         return "login/login";
     }
 
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("login") Login login, BindingResult bindingResult, HttpServletRequest request){
+    public String login(@Valid @ModelAttribute("login") Login login, BindingResult bindingResult, HttpServletRequest request){ // 로그인 페이지 매핑-> post
+
         System.out.println(login);
         if(bindingResult.hasErrors()) { //에러 발생시 BindingResult 활용해서 글로벌 에러 띄우기
             return "login";

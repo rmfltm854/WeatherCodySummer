@@ -25,7 +25,7 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
     private CrawlingRepository repo;
 
 
-    public List<HashMap<String, List<String>>> main5() {
+    public List<HashMap<String, List<String>>> steadyClubMan() { // steady 남자 크롤링 메서드
 
         final String url = "https://slowsteadyclub.com/docu/list.html?cate_no=509"; // 크롤링 할 url 선언
 
@@ -117,7 +117,7 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
 
     }
 
-    public List<HashMap<String, List<String>>> main2() {
+    public List<HashMap<String, List<String>>> steadyClubWoman() { // steady 여자 크롤링 메서드
 
         final String url = "https://slowsteadyclub.com/docu/list.html?cate_no=510"; // 크롤링 할 url 선언
 
@@ -209,10 +209,81 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
 
     }
 
-    /**
-     * crawling1 -> steadyclub 남자 이미지 크롤링 관련 메서드
-     * @return
-     */
+    public List<String> fourMan() { // 4xr 남자 크롤링 메서드
+
+        final String url = "https://www.4xr.co.kr/style/style_main.php"; // 크롤링 할 url 선언
+
+        ArrayList<String> hrefOfMainImageList = new ArrayList<>(); // 메인 이미지의 href 담을 리스트 생성
+        ArrayList<String> subImageList = new ArrayList<>(); // 서브 이미지 담을 리스트 생성
+        ArrayList<String> mainImageList = new ArrayList<>(); // 서브 이미지 담을 리스트 생성
+        HashMap<String, List<String>> resultMap = new LinkedHashMap<>(); // map{[hrefOfMainImageList(?), subImageList]}
+        List<HashMap<String, List<String>>> resultList = new ArrayList<HashMap<String, List<String>>>(); // resultMap을 감쌀 리스트 생성
+
+        try {
+
+            Connection conn = Jsoup.connect(url); //Jsoup라이브러리를 활용해서 url 주소로 접속
+            Document document = conn.get(); // 접속한 페이지의 html을 Docoument에 담음
+
+            Elements divTags = document.select("ul.swiper-wrapper > li > div.inner_img_box");
+            Elements aTags = divTags.select("a.link");
+
+
+            for (int i = 0; i < aTags.size(); i++) { //for문을 활용해 List<Elements>에 담긴 Element를 찾음
+
+                Element aTag = aTags.get(i); // aTags에 담긴 각각의 aTag를 찾음
+                String hrefLink = aTag.attr("href"); // aTag안의 href의 link를 찾음
+                hrefOfMainImageList.add("https://www.4xr.co.kr" + hrefLink); // 찾아온 링크를 hrefOfMainImageList에 추가
+                System.out.println(hrefLink);
+                String linkUrl = hrefOfMainImageList.get(i).toString(); // list에서 link를 가져와 String형태로 변환
+                System.out.println(hrefOfMainImageList.size());
+
+                Connection Conns = Jsoup.connect(linkUrl);
+                Document innerDocument = Conns.get(); // linkUrl의 html을 담음
+                Elements mainLiTags = innerDocument.select("ul.swiper-wrapper > li"); // mainImg src가 담긴 li태그 가져오는 로직
+                Elements subLiTags = innerDocument.select("ul.wrapper > li"); // subImg src가 담긴 li태그 가져오는 로직
+
+                Elements imgs = mainLiTags.select("img"); // 찾은 클래스 내에서 img 태그를 찾음
+                Elements subTimgs = subLiTags.select("img");
+
+                for (int j = 0; j < 1; j++) { // li태그에서 mainImg src 가져오는 반복문
+
+                    if (imgs.size() != 0){
+
+                        Element imgTag = imgs.get(j);
+                        String imgSrc = imgTag.attr("src");
+                        mainImageList.add(imgSrc);
+
+                    }
+                }
+
+                for (int h=0; h<subTimgs.size(); h++) { // li태그에서 subImg src 가져오는 반복문 --> li태그에 총 8개 서브 이미지가 담겨있음 티셔츠와 바지만 나오는 이미지 인덱스 1과 5의 값만 추출
+
+                    if (subTimgs.size() != 0){
+
+                        if (h == 1 || h == 5){
+
+                            Element subImgTag = subTimgs.get(h);
+                            String subImgSrc = subImgTag.attr("src");
+                            System.out.println(subImgSrc);
+                            subImageList.add(subImgSrc);
+
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+        return subImageList;
+    }
+
+
+        /**
+         * crawling1 -> steadyclub 남자 이미지 크롤링 관련 메서드
+         * @return
+         */
 
     public List<com.example.weathercodysummer.Dto.MainImage> mainImageList(){
         List<com.example.weathercodysummer.Dto.MainImage> all = repo.findAll();
