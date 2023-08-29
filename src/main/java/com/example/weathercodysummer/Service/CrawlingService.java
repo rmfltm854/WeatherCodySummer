@@ -251,6 +251,7 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
 
                         Element imgTag = imgs.get(j);
                         String imgSrc = imgTag.attr("src");
+                        System.out.println(imgSrc);
                         mainImageList.add(imgSrc);
 
                     }
