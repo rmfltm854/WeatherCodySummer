@@ -1,37 +1,41 @@
 package com.example.weathercodysummer.Conrtoller;
+
 import com.example.weathercodysummer.Dto.*;
-import com.example.weathercodysummer.Repository.CrawlingRepository;
+import com.example.weathercodysummer.Entity.OutManImage;
 import com.example.weathercodysummer.Repository.MainImageRepo;
 import com.example.weathercodysummer.Service.*;
 import com.example.weathercodysummer.session.SessionConst;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.ServerResponse;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+
 import java.net.URL;
 import java.util.*;
 
@@ -67,6 +71,7 @@ public class Controller {//윤서 등장
     MainImageRepo repo;
 
 
+
     @GetMapping("/crawlingBy4xr")
     @ResponseBody
     public List<String> fourMan(){ // 4xr 남자 크롤링 메서드
@@ -80,6 +85,18 @@ public class Controller {//윤서 등장
         List<HashMap<String,List<String>>> list = crawlingService.steadyClubWoman();
         return list;
     }
+    @Autowired
+    OutManService outService;
+
+//    @GetMapping("/crawling2")
+//    @ResponseBody
+//    public List<HashMap<String,List<String>>> Test(){
+////        List<String> list = service4.main5();
+//        List<HashMap<String,List<String>>> list = crawlingService.main2();
+//        crawlingService.main5();
+//        return list;
+//    }
+
 
     @GetMapping("/crawling")
     @ResponseBody
@@ -520,4 +537,11 @@ public class Controller {//윤서 등장
         return "login/man";
 
    }
+
+   @GetMapping("/testURL")
+    public List<OutManImage> testURL(){
+        List<OutManImage> list = outService.allOutSRC();
+
+        return list;
+    }
 }

@@ -209,7 +209,7 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
 
     }
 
-    public List<String> fourMan() { // 4xr 남자 크롤링 메서드
+    public List<String> fourMan(){ // 4xr 남자 크롤링 메서드
 
         final String url = "https://www.4xr.co.kr/style/style_main.php"; // 크롤링 할 url 선언
 
@@ -281,10 +281,10 @@ public class CrawlingService {//웹페이지 slowsteadyclub 크롤러
     }
 
 
-        /**
-         * crawling1 -> steadyclub 남자 이미지 크롤링 관련 메서드
-         * @return
-         */
+    /**
+     * crawling1 -> steadyclub 남자 이미지 크롤링 관련 메서드
+     * @return
+     */
 
     public List<com.example.weathercodysummer.Dto.MainImage> mainImageList(){
         List<com.example.weathercodysummer.Dto.MainImage> all = repo.findAll();
