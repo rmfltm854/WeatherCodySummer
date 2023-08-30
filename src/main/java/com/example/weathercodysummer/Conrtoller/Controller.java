@@ -1,5 +1,6 @@
 package com.example.weathercodysummer.Conrtoller;
 
+import com.example.weathercodysummer.CrawlerModule.MusinsaManCrawler;
 import com.example.weathercodysummer.Dto.*;
 import com.example.weathercodysummer.Entity.OutManImage;
 import com.example.weathercodysummer.Repository.MainImageRepo;
@@ -70,6 +71,9 @@ public class Controller {//윤서 등장
     @Autowired
     MainImageRepo repo;
 
+    @Autowired
+    OutManService outService;
+
 
 
     @GetMapping("/crawlingBy4xr")
@@ -79,23 +83,19 @@ public class Controller {//윤서 등장
         return list;
     }
 
+    @GetMapping("/Musinsa")
+    @ResponseBody
+    public void MusinsaMan() throws IOException { // 4xr 남자 크롤링 메서드
+        MunsinsaManService manService = new MunsinsaManService();
+        manService.getSubManImage();
+    }
+
     @GetMapping("/crawling2")
     @ResponseBody
     public List<HashMap<String,List<String>>> crawlingBySteadyMan(){ // steady 남자 크롤링 메서드
         List<HashMap<String,List<String>>> list = crawlingService.steadyClubWoman();
         return list;
     }
-    @Autowired
-    OutManService outService;
-
-//    @GetMapping("/crawling2")
-//    @ResponseBody
-//    public List<HashMap<String,List<String>>> Test(){
-////        List<String> list = service4.main5();
-//        List<HashMap<String,List<String>>> list = crawlingService.main2();
-//        crawlingService.main5();
-//        return list;
-//    }
 
 
     @GetMapping("/crawling")
