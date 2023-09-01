@@ -1,33 +1,25 @@
 package com.example.weathercodysummer.CrawlerModule;
 
-
-import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import javax.imageio.ImageIO;
 
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@RequiredArgsConstructor
-public class MusinsaManCrawler {
+public class MusinsaWomenCrawler {
     private static final Pattern PATTERN_BRACKET = Pattern.compile("\\([^\\(\\)]+\\)");
     private static final String VOID = "";
     public List<HashMap<String,String>> setData() {
         int pageNo = 1;
         List<String> list = new ArrayList<>();
 
-        String HowPage = "https://www.musinsa.com/search/musinsa/coordi?q=%EB%82%A8%EC%9E%90%20%EC%BD%94%EB%94%94&list_kind=small&sortCode=term_date&sub_sort=&page=1&display_cnt=0&saleGoods=false&includeSoldOut=false&setupGoods=false&popular=false&category1DepthCode=&category2DepthCodes=&category3DepthCodes=&selectedFilters=&category1DepthName=&category2DepthName=&brandIds=&price=&colorCodes=&contentType=&styleTypes=&includeKeywords=&excludeKeywords=&originalYn=N&tags=&campaignId=&serviceType=&eventType=&type=&season=&measure=&openFilterLayout=N&selectedOrderMeasure=&shoeSizeOption=&groupSale=false&d_cat_cd=&attribute=&plusDeliveryYn=";
+        String HowPage = "https://www.musinsa.com/search/musinsa/coordi?q=%EC%BD%94%EB%94%94&list_kind=small&sortCode=term_date&sub_sort=&page=1&display_cnt=0&saleGoods=false&includeSoldOut=false&setupGoods=false&popular=false&category1DepthCode=&category2DepthCodes=&category3DepthCodes=&selectedFilters=&category1DepthName=&category2DepthName=&brandIds=&price=&colorCodes=&contentType=&styleTypes=&includeKeywords=&excludeKeywords=&originalYn=N&tags=&campaignId=&serviceType=&eventType=&type=&season=&measure=&openFilterLayout=N&selectedOrderMeasure=&shoeSizeOption=&groupSale=false&d_cat_cd=&attribute=&plusDeliveryYn=";
         try {
             Document page = Jsoup.connect(HowPage).get();
             Elements totalNum = page.select(".totalPagingNum");
@@ -38,7 +30,7 @@ public class MusinsaManCrawler {
         HashMap<String,String> map = new HashMap<String,String>();
         List<HashMap<String,String>> relist = new ArrayList<HashMap<String,String>>();
         for (int i = 1; i <4; i++) {
-            String wtUrl = "https://www.musinsa.com/search/musinsa/coordi?q=%EB%82%A8%EC%9E%90%20%EC%BD%94%EB%94%94&list_kind=small&sortCode=term_date&sub_sort=&page="+i+"&display_cnt=0&saleGoods=false&includeSoldOut=false&setupGoods=false&popular=false&category1DepthCode=&category2DepthCodes=&category3DepthCodes=&selectedFilters=&category1DepthName=&category2DepthName=&brandIds=&price=&colorCodes=&contentType=&styleTypes=&includeKeywords=&excludeKeywords=&originalYn=N&tags=&campaignId=&serviceType=&eventType=&type=&season=&measure=&openFilterLayout=N&selectedOrderMeasure=&shoeSizeOption=&groupSale=false&d_cat_cd=&attribute=&plusDeliveryYn=";
+            String wtUrl = "https://www.musinsa.com/search/musinsa/coordi?q=%EC%97%AC%EC%9E%90&list_kind=small&sortCode=term_date&sub_sort=&page="+i+"&display_cnt=0&saleGoods=false&includeSoldOut=false&setupGoods=false&popular=false&category1DepthCode=&category2DepthCodes=&category3DepthCodes=&selectedFilters=&category1DepthName=&category2DepthName=&brandIds=&price=&colorCodes=&contentType=&styleTypes=&includeKeywords=&excludeKeywords=&originalYn=N&tags=&campaignId=&serviceType=&eventType=&type=&season=&measure=&openFilterLayout=N&selectedOrderMeasure=&shoeSizeOption=&groupSale=false&d_cat_cd=&attribute=&plusDeliveryYn=";
             try {
                 // System.out.println(wtUrl);
                 Document Musinsa = Jsoup.connect(wtUrl).get();

@@ -37,6 +37,8 @@ public class CrawlingRepository {
         em.persist(subImage);
     }
 
+
+
     public List<com.example.weathercodysummer.Dto.MainImage> findAll(){
         List<MainImage> mainImageList = em.createQuery("select m from MainImage m", MainImage.class).getResultList();
         List<com.example.weathercodysummer.Dto.MainImage> collect = mainImageList.stream().map(MainImage::toDto).collect(Collectors.toList());
@@ -83,6 +85,16 @@ public class CrawlingRepository {
      */
     @Transactional
     public void saveMainImage2(SteadyWomanMainImg mainImage){
+        em.persist(mainImage);
+    }
+
+    @Transactional
+    public void saveMusinsaMan(MusinsaManEntity mainImage){
+        em.persist(mainImage);
+    }
+
+    @Transactional
+    public void saveMusinsaManSub(MusinasManSubEntity mainImage){
         em.persist(mainImage);
     }
 

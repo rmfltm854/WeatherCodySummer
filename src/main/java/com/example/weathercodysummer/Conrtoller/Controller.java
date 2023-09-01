@@ -2,8 +2,12 @@ package com.example.weathercodysummer.Conrtoller;
 
 import com.example.weathercodysummer.CrawlerModule.MusinsaManCrawler;
 import com.example.weathercodysummer.Dto.*;
-import com.example.weathercodysummer.Entity.OutManImage;
-import com.example.weathercodysummer.Repository.MainImageRepo;
+import com.example.weathercodysummer.Dto.MainImage;
+import com.example.weathercodysummer.Dto.SteadyWomanMainImg;
+import com.example.weathercodysummer.Dto.SteadyWomanSubImg;
+import com.example.weathercodysummer.Dto.SubImage;
+import com.example.weathercodysummer.Entity.*;
+import com.example.weathercodysummer.Repository.*;
 import com.example.weathercodysummer.Service.*;
 import com.example.weathercodysummer.session.SessionConst;
 
@@ -74,8 +78,32 @@ public class Controller {//윤서 등장
     @Autowired
     OutManService outService;
 
+    @Autowired
+    SteadyWomanRepository womanRepo;
 
+    @Autowired
+    MunsinsaManService service;
 
+    @Autowired
+    MusinsaWomenService wService;
+
+    @Autowired
+    MusinsaManRepository musinMan;
+
+    @Autowired
+    MusinsaManSubRepository musinsub;
+
+    @Autowired
+    MusinsaWomenRepository musinWomen;
+
+    @Autowired
+    MusinsaWomenSubRepository musinWomenSub;
+
+    @Autowired
+    SteadyManRepository steadyman;
+
+    @Autowired
+    SteadyWomanRepository steadywomen;
     @GetMapping("/crawlingBy4xr")
     @ResponseBody
     public List<String> fourMan(){ // 4xr 남자 크롤링 메서드
@@ -86,8 +114,7 @@ public class Controller {//윤서 등장
     @GetMapping("/Musinsa")
     @ResponseBody
     public void MusinsaMan() throws IOException { // 4xr 남자 크롤링 메서드
-        MunsinsaManService manService = new MunsinsaManService();
-        manService.getSubManImage();
+        wService.getSubManImage();
     }
 
     @GetMapping("/crawling2")
@@ -187,7 +214,6 @@ public class Controller {//윤서 등장
         return "redirect:/main";
     }
 
-//하시발
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, Model model, HttpServletResponse response){
 
@@ -299,7 +325,7 @@ public class Controller {//윤서 등장
     }
 
     @GetMapping("/product/detail")
-    public String detailPage(@RequestParam("id") Long id, Model model, HttpServletRequest request,HttpServletResponse response,String gender){ //상품 상세 메소드 --> view 가 아직 없어서 userInfo.html 복사 후 사용. 백앤드 로직은 완벽 구현
+    public String detailPage(@RequestParam("id") Long id, Model model, HttpServletRequest request,HttpServletResponse response,String gender,String stat){ //상품 상세 메소드 --> view 가 아직 없어서 userInfo.html 복사 후 사용. 백앤드 로직은 완벽 구현
 
         HttpSession session = request.getSession(false); // session 받아오기
         if (session != null) {
@@ -307,32 +333,69 @@ public class Controller {//윤서 등장
             model.addAttribute("memberInfo", userInfo);
 
         }
-        if(gender.equals("man")){
-            MainImage mainSrc = crawlingService.findMainSrc(id);
-            List<SubImage> detailImages = crawlingService.detail(id);
-            List<ReviewDto> rDto = rService.getReview(mainSrc.getSrc());
-            model.addAttribute("review",rDto);
-            model.addAttribute("mainSrc", mainSrc);
-            model.addAttribute("list", detailImages);
-            model.addAttribute("gender",gender);
-            System.out.println(gender);
-            Cookie cookie = new Cookie(id.toString(), mainSrc.getSrc());
-            cookie.setPath("/recently/view");
-            cookie.setMaxAge(300);
-            response.addCookie(cookie);
-        } else{
-            SteadyWomanMainImg mainSrc = WmainService.findMainSrc(id);
-            List<SteadyWomanSubImg> detailImages = WmainService.detail(id);
-            List<ReviewDto> rDto = rService.getReview(mainSrc.getSrc());
-            model.addAttribute("review",rDto);
-            model.addAttribute("mainSrc", mainSrc);
-            model.addAttribute("list", detailImages);
-            model.addAttribute("gender",gender);
-            System.out.println(gender);
-            Cookie cookie = new Cookie(id.toString(), mainSrc.getSrc());
-            cookie.setPath("/recently/view");
-            cookie.setMaxAge(300);
-            response.addCookie(cookie);
+        if(stat.equals("musinsa")){
+            System.out.println("무신사");
+            if(gender.equals("man")){
+                String mainImage = musinMan.mainSrc(id);
+                List<MusinasManSubEntity> detailImages =musinsub.subSrc(id);
+                List<ReviewDto> rDto = rService.getReview(mainImage);
+                model.addAttribute("review",rDto);
+                model.addAttribute("mainSrc", mainImage);
+                model.addAttribute("list", detailImages);
+                model.addAttribute("gender",gender);
+                model.addAttribute("stat",stat);
+                System.out.println(gender);
+                Cookie cookie = new Cookie(id.toString(), mainImage);
+                cookie.setPath("/recently/view");
+                cookie.setMaxAge(300);
+                response.addCookie(cookie);
+            } else{
+                String mainImage = musinWomen.mainSrc(id);
+                List<MusinsaWomenSubEntity> detailImages = musinWomenSub.subSrc(id);
+                List<ReviewDto> rDto = rService.getReview(mainImage);
+                model.addAttribute("review",rDto);
+                model.addAttribute("mainSrc", mainImage );
+                model.addAttribute("list", detailImages);
+                model.addAttribute("gender",gender);
+                model.addAttribute("stat",stat);
+                System.out.println(gender);
+                Cookie cookie = new Cookie(id.toString(), mainImage);
+                cookie.setPath("/recently/view");
+                cookie.setMaxAge(300);
+                response.addCookie(cookie);
+            }
+        }else{
+            System.out.println("steady");
+            if(gender.equals("man")){
+                String mainSrc = steadyman.mainSrc(id);
+                List<SubImage> detailImages = crawlingService.detail(id);
+                List<ReviewDto> rDto = rService.getReview(mainSrc);
+                model.addAttribute("review",rDto);
+                model.addAttribute("mainSrc", mainSrc);
+                model.addAttribute("list", detailImages);
+                model.addAttribute("gender",gender);
+                model.addAttribute("stat",stat);
+                System.out.println(gender);
+                Cookie cookie = new Cookie(id.toString(), mainSrc);
+                cookie.setPath("/recently/view");
+                cookie.setMaxAge(300);
+                response.addCookie(cookie);
+            } else{
+                String mainSrc = steadywomen.mainSrc(id);
+                List<SteadyWomanSubImg> detailImages = WmainService.detail(id);
+                List<ReviewDto> rDto = rService.getReview(mainSrc);
+                model.addAttribute("review",rDto);
+                model.addAttribute("mainSrc", mainSrc);
+                model.addAttribute("list", detailImages);
+                model.addAttribute("gender",gender);
+                model.addAttribute("stat",stat);
+                System.out.println(gender);
+                Cookie cookie = new Cookie(id.toString(), mainSrc);
+                cookie.setPath("/recently/view");
+                cookie.setMaxAge(300);
+                response.addCookie(cookie);
+            }
+
         }
 
 
@@ -384,15 +447,13 @@ public class Controller {//윤서 등장
     }
 
     @GetMapping("/help")
-    public String aa(){
+    public String aa(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession(false); // session 받아오기
+        if (session != null) {
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("memberInfo", userInfo);
+        }
         return "/login/help";
-    }
-
-
-
-    @GetMapping("bb")
-    public String aa2(){
-        return "productDetail";
     }
 
 
@@ -462,40 +523,53 @@ public class Controller {//윤서 등장
 
     @GetMapping("/like")
     @ResponseBody
-    public int likeCount(String imgSrc,String action, String gender){
+    public int likeCount(String imgSrc,String action, String gender,String stat){
+        System.out.println("stat: " + stat);
         int resultMain = 0;
-        if(gender.equals("man")){
-            resultMain = mainService.countLike(imgSrc,action);
+        if(stat.equals("musinsa")){
+            if(gender.equals("man")){
+                resultMain = service.countLike(imgSrc,action);
+            }else{
+                resultMain = service.countLike(imgSrc,action);
+            }
+            return resultMain;
         }else{
-            resultMain = WmainService.countLike(imgSrc,action);
+            if(gender.equals("man")){
+                resultMain = mainService.countLike(imgSrc,action);
+            }else{
+                resultMain = WmainService.countLike(imgSrc,action);
+            }
+            return resultMain;
         }
-        return resultMain;
     }
     @GetMapping("/submit-review")
     @ResponseBody
-    public String review(String reviewText, String imgSrc,HttpServletRequest request,String gender,Model model){
-        HttpSession session = request.getSession(false);
-        if(gender.equals("man")){
-            if (session != null) {
-                SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
-                String string = userInfo.getUserId().toString();
-                System.out.println(imgSrc);
-                crawlingService.saveReview(reviewText, imgSrc, string,gender);
-                List<ReviewDto> rDto = rService.getReview(imgSrc);//img 주소를 받아서 그사진에대한 리뷰를 상세페이지로 넘어갈때 보내준다.
-                model.addAttribute("review",rDto);
-                Cookie[] cookie = request.getCookies();
-            }
-        } else{
-            if (session != null) {
-                SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
-                String string = userInfo.getUserId().toString();
-                crawlingService.saveReview(reviewText, imgSrc, string,gender);
+    public String review(String reviewText, String imgSrc,HttpServletRequest request,String gender,Model model, String stat){
 
-                List<ReviewDto> rDto = rService.getReview(imgSrc);//img 주소를 받아서 그사진에대한 리뷰를 상세페이지로 넘어갈때 보내준다.
-                model.addAttribute("review",rDto);
-                Cookie[] cookie = request.getCookies();
+        System.out.println(reviewText);
+        System.out.println(gender);
+        HttpSession session = request.getSession(false);
+            if(gender.equals("man")){
+                if (session != null) {
+                    SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+                    String string = userInfo.getUserId().toString();
+                    System.out.println(imgSrc);
+                    crawlingService.saveReview(reviewText, imgSrc, string,gender);
+                    List<ReviewDto> rDto = rService.getReview(imgSrc);//img 주소를 받아서 그사진에대한 리뷰를 상세페이지로 넘어갈때 보내준다.
+                    model.addAttribute("review",rDto);
+                    Cookie[] cookie = request.getCookies();
+                }
+            } else{
+                if (session != null) {
+                    SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+                    String string = userInfo.getUserId().toString();
+                    crawlingService.saveReview(reviewText, imgSrc, string,gender);
+
+                    List<ReviewDto> rDto = rService.getReview(imgSrc);//img 주소를 받아서 그사진에대한 리뷰를 상세페이지로 넘어갈때 보내준다.
+                    model.addAttribute("review",rDto);
+                    Cookie[] cookie = request.getCookies();
+                }
             }
-        }
 
         return "성공";
     }
@@ -528,15 +602,49 @@ public class Controller {//윤서 등장
     }
 
    @GetMapping("/productList")
-    public String product(@PageableDefault(page=0,size=16,direction = Sort.Direction.DESC)Pageable pageable, Model model,String gender){
-       long total = repo.count();
-       int button = (int)total/16 +1;
-       model.addAttribute("button",button);
-        List<com.example.weathercodysummer.Entity.MainImage> page = repo.findAll(pageable).getContent();
-        model.addAttribute("manProduct",page);
-        return "login/man";
-
+    public String product(@PageableDefault(page=0,size=16,direction = Sort.Direction.DESC)Pageable pageable, Model model,String gender,HttpServletRequest request){
+       HttpSession session = request.getSession(false); // session 받아오기
+       if (session != null) {
+           SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+           model.addAttribute("memberInfo", userInfo);
+       }
+        System.out.println("gender: " + gender);
+        if(gender.equals("man")){
+           List<MusinsaManEntity> page = musinMan.findAll(pageable).getContent();
+           model.addAttribute("manProduct",page);
+           long total = musinMan.count();
+           int button = (int)total/16 +1;
+           model.addAttribute("button",button);
+           return "login/man";
+       }else{
+           List<MusinsaWomenEntity> page = musinWomen.findAll(pageable).getContent();
+           model.addAttribute("WomenProduct",page);
+           long total = musinWomen.count();
+           int button = (int)total/16 +1;
+           model.addAttribute("button",button);
+           model.addAttribute("stat","musinsa");
+           return "login/women";
+       }
    }
+
+    @GetMapping("/productList/etc")
+    public String productEtc(@PageableDefault(page=0,size=16,direction = Sort.Direction.DESC)Pageable pageable, Model model,String gender){
+        if(gender.equals("man")){
+            List<com.example.weathercodysummer.Entity.MainImage> page = repo.findAll(pageable).getContent();
+            model.addAttribute("manProduct",page);
+            long total = repo.count();
+            int button = (int)total/16 +1;
+            model.addAttribute("button",button);
+            return "login/manEtc";
+        }else{
+            List<com.example.weathercodysummer.Entity.SteadyWomanMainImg> page = womanRepo.findAll(pageable).getContent();
+            model.addAttribute("WomenProduct",page);
+            long total = womanRepo.count();
+            int button = (int)total/16 +1;
+            model.addAttribute("button",button);
+            return "login/womenEtc";
+        }
+    }
 
    @GetMapping("/testURL")
     public List<OutManImage> testURL(){

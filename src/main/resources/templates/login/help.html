@@ -37,49 +37,46 @@
 
 <div class="navnav">
     <ul class="menu">
-        <li class="nav-item">
-            <th:block th:if="${memberInfo != null}">
-                <div class="nav-item">
-                    <a class="title" href="/logout"> 로그아웃</a>
-                    <a></a>
-                </div>
-                <div>
-                    <a class="nav-link" th:if="${memberInfo != null}" href="/userInfo">마이페이지</a>
-                </div>
-            </th:block>
-            <th:block th:if="${a == null}">
-                <div class="depth">
-                    <a class="title" href="/login"> 로그인</a>
-                </div>
-            </th:block>
-        </li>
+        <th:block th:if="${memberInfo != null}">
+            <li class="nav-item">
+                <a class="title" href="/logout"> 로그아웃</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:if="${memberInfo != null}" href="/userInfo">마이페이지</a>
+            </li>
+        </th:block>
+        <th:block th:if="${memberInfo == null}">
+            <li class="nav-item">
+                <a class="title" href="/login"> 로그인</a>
+            </li>
+        </th:block>
         <li class="nav-item">
             <a class="nav-link" href="/recently/view" >최근에 본 상품</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/product/man">남성</a>
+            <a class="nav-link" aria-current="page" href="/productList?gender=man">남성</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/product/women">여성</a>
+            <a class="nav-link" href="/productList?gender=women">여성</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="/help">고객센터</a>
+            <a class="nav-link" href="/help">고객센터</a>
         </li>
     </ul>
 </div>
 <main>
-    <aside>
-        <div class="side_box">CATEGORT
-            <ul class="brand">
-                <li class="bra-item">
-                    <a class="bra-link" href="/product/man">무신사</a>
-                </li>
-                <li class="bra-item">
-                    <a class="bra-link" href="/product/man/etc">기타</a>
-                </li>
-            </ul>
-        </div>
-    </aside>
+<!--    <aside>-->
+<!--        <div class="side_box">CATEGORT-->
+<!--            <ul class="brand">-->
+<!--                <li class="bra-item">-->
+<!--                    <a class="bra-link" href="/product/man">무신사</a>-->
+<!--                </li>-->
+<!--                <li class="bra-item">-->
+<!--                    <a class="bra-link" href="/product/man/etc">기타</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </aside>-->
     <section>
             <div id="chat-container">
                 <header>Weather Cody 고객센터</header>

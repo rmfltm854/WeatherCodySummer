@@ -24,12 +24,13 @@ button.addEventListener('click', function (e) {
         const reviewText = $("textarea[name='reveiw']").val(); // 리뷰 텍스트 가져오기
         const imgSrc = $(".main-pro img").attr("src"); // 이미지 경로 가져오기
         const gender = $('#gender').val();
+        const stat = $('#stat').val();
 
         // Ajax를 사용하여 리뷰 작성 요청 보내기
         $.ajax({
             type: "GET",
             url: "/submit-review",
-            data: {reviewText: reviewText, imgSrc: imgSrc, cookieValue: getCookie('loggedIn'),gender : gender}, // 리뷰 텍스트와 이미지 경로 함께 전송
+            data: {reviewText: reviewText, imgSrc: imgSrc, cookieValue: getCookie('loggedIn'),gender : gender,stat : stat}, // 리뷰 텍스트와 이미지 경로 함께 전송
             dataType: "text",
             success: function (data) {
                 if(data === "성공"){

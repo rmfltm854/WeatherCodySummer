@@ -23,4 +23,8 @@ public interface SteadyWomanRepository extends JpaRepository<SteadyWomanMainImg,
     @Transactional
     int howLike(String src);
 
+    @Query(value = "select src from women_main where w_main_id = ?",nativeQuery = true)
+    @Transactional
+    String mainSrc(Long id);
+
 }

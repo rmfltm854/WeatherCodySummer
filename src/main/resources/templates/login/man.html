@@ -53,10 +53,10 @@
             <a class="nav-link" href="/recently/view" >최근에 본 상품</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/product/man?gender=man">남성</a>
+            <a class="nav-link" aria-current="page" href="/productList?gender=man">남성</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/product/man?gender=man">여성</a>
+            <a class="nav-link" href="/productList?gender=women">여성</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/help">고객센터</a>
@@ -68,10 +68,10 @@
         <div class="side_box">CATEGORY
             <ul class="brand">
                 <li class="bra-item">
-                    <a class="bra-link" href="/product/man">무신사</a>
+                    <a class="bra-link" href="/productList?gender=man">무신사</a>
                 </li>
                 <li class="bra-item">
-                    <a class="bra-link" href="/product/man/etc">기타</a>
+                    <a class="bra-link" href="/productList/etc?gender=man">기타</a>
                 </li>
             </ul>
         </div>
@@ -87,7 +87,8 @@
                             <div class="col-lg-3">
                                 <div class="info-box" href="#">
                                     <input type="hidden" th:value="man">
-                                    <a href="#" th:href="@{/product/detail(id = ${manProduct.id}, gender='man')}">
+                                    <input type = "hidden" th:value="musinsa" th:id="stat">
+                                    <a href="#" th:href="@{/product/detail(id = ${manProduct.id}, gender='man',stat='musinsa')}">
                                         <img class="img-fluid" th:id="${manProduct.id}" th:src="@{${manProduct.src}}">
                                     </a>
                                     <div class="info">

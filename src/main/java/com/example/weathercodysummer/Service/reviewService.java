@@ -2,7 +2,6 @@ package com.example.weathercodysummer.Service;
 
 import com.example.weathercodysummer.Dto.ReviewDto;
 import com.example.weathercodysummer.Entity.Review;
-import com.example.weathercodysummer.Entity.SteadyWomanSubImg;
 import com.example.weathercodysummer.Repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -90,7 +90,8 @@
                         <div class="col-lg-3">
                             <div class="info-box" href="#">
                                 <input type="hidden" th:value="man">
-                                <a href="#" th:href="@{/product/detail(id = ${manRank.id},gender='man')}">
+                                <input type = "hidden" th:value="steady" th:id="stat">
+                                <a href="#" th:href="@{/product/detail(id = ${manRank.id},gender='man',stat='steady')}">
                                 <img class="img-fluid" th:id="${manRank.id}" th:src="@{${manRank.src}}">
                                 </a>
                                 <div class="info">
@@ -115,7 +116,8 @@
                             <div class="col-lg-3">
                                 <div class="info-box" href="#">
                                     <input type="hidden" th:value="women">
-                                    <a href="#" th:href="@{/product/detail(id = ${WomenRank.id}, gender='women')}">
+                                    <input type = "hidden" th:value="steady" th:id="stat">
+                                    <a href="#" th:href="@{/product/detail(id = ${WomenRank.id}, gender='women',stat='steady')}">
                                         <img class="img-fluid" th:id="${WomenRank.id}" th:src="@{${WomenRank.src}}">
                                     </a>
                                     <div class="info">
@@ -133,7 +135,33 @@
     </section>
 
 </main>
+<script>
+    window.addEventListener('beforeunload', (event) => {
+        // 쿠키 전체 삭제하기
+        const allDelCookies = (domain, path) => {
+            // const doc = document;
+            domain = domain || document.domain;
+            path = path || '/';
 
+            const cookies = document.cookie.split('; '); // 배열로 반환
+            console.log(cookies);
+            const expiration = 'Sat, 01 Jan 1972 00:00:00 GMT';
+
+            // 반목문 순회하면서 쿠키 전체 삭제
+            if (!document.cookie) {
+                alert('삭제할 쿠키가 없습니다.');
+            } else {
+                for (i = 0; i < cookies.length; i++) {
+                    // const uname = cookies[i].split('=')[0];
+                    // document.cookie = `${uname}=; expires=${expiration}`;
+                    document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration;
+                    // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
+                }
+                alert('쿠키 전부 삭제완료!!');
+            }
+        };
+    });
+</script>
 <!--<script src="/JS/like.js?v=<%=System.currentTimeMillis() %>"></script>-->
 <script th:src="@{/JS/like.js}" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
