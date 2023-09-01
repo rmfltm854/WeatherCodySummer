@@ -1,6 +1,7 @@
 package com.example.weathercodysummer.Conrtoller;
 
 import com.example.weathercodysummer.CrawlerModule.MusinsaManCrawler;
+import com.example.weathercodysummer.CrawlerModule.UmbrellaCrawler;
 import com.example.weathercodysummer.Dto.*;
 import com.example.weathercodysummer.Dto.MainImage;
 import com.example.weathercodysummer.Dto.SteadyWomanMainImg;
@@ -11,6 +12,7 @@ import com.example.weathercodysummer.Repository.*;
 import com.example.weathercodysummer.Service.*;
 import com.example.weathercodysummer.session.SessionConst;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -104,6 +106,15 @@ public class Controller {//윤서 등장
 
     @Autowired
     SteadyWomanRepository steadywomen;
+
+    @Autowired
+    UmbrellaService umService;
+
+    @Autowired
+    UmbrellaRepository umRepo;
+
+    @Autowired
+    WeatherApiService weatherServie;
     @GetMapping("/crawlingBy4xr")
     @ResponseBody
     public List<String> fourMan(){ // 4xr 남자 크롤링 메서드
@@ -325,77 +336,152 @@ public class Controller {//윤서 등장
     }
 
     @GetMapping("/product/detail")
-    public String detailPage(@RequestParam("id") Long id, Model model, HttpServletRequest request,HttpServletResponse response,String gender,String stat){ //상품 상세 메소드 --> view 가 아직 없어서 userInfo.html 복사 후 사용. 백앤드 로직은 완벽 구현
-
+    public String detailPage(@RequestParam("id") Long id, Model model, HttpServletRequest request,HttpServletResponse response,String gender,String stat) throws JsonProcessingException { //상품 상세 메소드 --> view 가 아직 없어서 userInfo.html 복사 후 사용. 백앤드 로직은 완벽 구현
+        //String weather = weatherServie.main();
+        String weather = "\"Rain\"";
+        System.out.println("현재날씨: " + weather);
         HttpSession session = request.getSession(false); // session 받아오기
         if (session != null) {
             SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
             model.addAttribute("memberInfo", userInfo);
 
         }
-        if(stat.equals("musinsa")){
-            System.out.println("무신사");
-            if(gender.equals("man")){
-                String mainImage = musinMan.mainSrc(id);
-                List<MusinasManSubEntity> detailImages =musinsub.subSrc(id);
-                List<ReviewDto> rDto = rService.getReview(mainImage);
-                model.addAttribute("review",rDto);
-                model.addAttribute("mainSrc", mainImage);
-                model.addAttribute("list", detailImages);
-                model.addAttribute("gender",gender);
-                model.addAttribute("stat",stat);
-                System.out.println(gender);
-                Cookie cookie = new Cookie(id.toString(), mainImage);
-                cookie.setPath("/recently/view");
-                cookie.setMaxAge(300);
-                response.addCookie(cookie);
-            } else{
-                String mainImage = musinWomen.mainSrc(id);
-                List<MusinsaWomenSubEntity> detailImages = musinWomenSub.subSrc(id);
-                List<ReviewDto> rDto = rService.getReview(mainImage);
-                model.addAttribute("review",rDto);
-                model.addAttribute("mainSrc", mainImage );
-                model.addAttribute("list", detailImages);
-                model.addAttribute("gender",gender);
-                model.addAttribute("stat",stat);
-                System.out.println(gender);
-                Cookie cookie = new Cookie(id.toString(), mainImage);
-                cookie.setPath("/recently/view");
-                cookie.setMaxAge(300);
-                response.addCookie(cookie);
+        if(weather.equals("\"Rain\"")){
+            String umbrella = umRepo.getUmbrella();
+            System.out.println(umbrella);
+            if(stat.equals("musinsa")){
+                System.out.println("무신사");
+                if(gender.equals("man")){
+                    String mainImage = musinMan.mainSrc(id);
+                    List<MusinasManSubEntity> detailImages =musinsub.subSrc(id);
+                    List<ReviewDto> rDto = rService.getReview(mainImage);
+                    model.addAttribute("umbrella",umbrella);
+                    model.addAttribute("review",rDto);
+                    model.addAttribute("mainSrc", mainImage);
+                    model.addAttribute("list", detailImages);
+                    model.addAttribute("gender",gender);
+                    model.addAttribute("stat",stat);
+                    System.out.println(gender);
+                    Cookie cookie = new Cookie(id.toString(), mainImage);
+                    cookie.setPath("/recently/view");
+                    cookie.setMaxAge(300);
+                    response.addCookie(cookie);
+                } else{
+                    String mainImage = musinWomen.mainSrc(id);
+                    List<MusinsaWomenSubEntity> detailImages = musinWomenSub.subSrc(id);
+                    List<ReviewDto> rDto = rService.getReview(mainImage);
+                    model.addAttribute("umbrella",umbrella);
+                    model.addAttribute("review",rDto);
+                    model.addAttribute("mainSrc", mainImage );
+                    model.addAttribute("list", detailImages);
+                    model.addAttribute("gender",gender);
+                    model.addAttribute("stat",stat);
+                    System.out.println(gender);
+                    Cookie cookie = new Cookie(id.toString(), mainImage);
+                    cookie.setPath("/recently/view");
+                    cookie.setMaxAge(300);
+                    response.addCookie(cookie);
+                }
+            }else{
+                System.out.println("steady");
+                if(gender.equals("man")){
+                    String mainSrc = steadyman.mainSrc(id);
+                    List<SubImage> detailImages = crawlingService.detail(id);
+                    List<ReviewDto> rDto = rService.getReview(mainSrc);
+                    model.addAttribute("umbrella",umbrella);
+                    model.addAttribute("review",rDto);
+                    model.addAttribute("mainSrc", mainSrc);
+                    model.addAttribute("list", detailImages);
+                    model.addAttribute("gender",gender);
+                    model.addAttribute("stat",stat);
+                    System.out.println(gender);
+                    Cookie cookie = new Cookie(id.toString(), mainSrc);
+                    cookie.setPath("/recently/view");
+                    cookie.setMaxAge(300);
+                    response.addCookie(cookie);
+                } else{
+                    String mainSrc = steadywomen.mainSrc(id);
+                    List<SteadyWomanSubImg> detailImages = WmainService.detail(id);
+                    List<ReviewDto> rDto = rService.getReview(mainSrc);
+                    model.addAttribute("umbrella",umbrella);
+                    model.addAttribute("review",rDto);
+                    model.addAttribute("mainSrc", mainSrc);
+                    model.addAttribute("list", detailImages);
+                    model.addAttribute("gender",gender);
+                    model.addAttribute("stat",stat);
+                    System.out.println(gender);
+                    Cookie cookie = new Cookie(id.toString(), mainSrc);
+                    cookie.setPath("/recently/view");
+                    cookie.setMaxAge(300);
+                    response.addCookie(cookie);
+                }
+
             }
         }else{
-            System.out.println("steady");
-            if(gender.equals("man")){
-                String mainSrc = steadyman.mainSrc(id);
-                List<SubImage> detailImages = crawlingService.detail(id);
-                List<ReviewDto> rDto = rService.getReview(mainSrc);
-                model.addAttribute("review",rDto);
-                model.addAttribute("mainSrc", mainSrc);
-                model.addAttribute("list", detailImages);
-                model.addAttribute("gender",gender);
-                model.addAttribute("stat",stat);
-                System.out.println(gender);
-                Cookie cookie = new Cookie(id.toString(), mainSrc);
-                cookie.setPath("/recently/view");
-                cookie.setMaxAge(300);
-                response.addCookie(cookie);
-            } else{
-                String mainSrc = steadywomen.mainSrc(id);
-                List<SteadyWomanSubImg> detailImages = WmainService.detail(id);
-                List<ReviewDto> rDto = rService.getReview(mainSrc);
-                model.addAttribute("review",rDto);
-                model.addAttribute("mainSrc", mainSrc);
-                model.addAttribute("list", detailImages);
-                model.addAttribute("gender",gender);
-                model.addAttribute("stat",stat);
-                System.out.println(gender);
-                Cookie cookie = new Cookie(id.toString(), mainSrc);
-                cookie.setPath("/recently/view");
-                cookie.setMaxAge(300);
-                response.addCookie(cookie);
-            }
+            if(stat.equals("musinsa")){
+                System.out.println("무신사");
+                if(gender.equals("man")){
+                    String mainImage = musinMan.mainSrc(id);
+                    List<MusinasManSubEntity> detailImages =musinsub.subSrc(id);
+                    List<ReviewDto> rDto = rService.getReview(mainImage);
+                    model.addAttribute("review",rDto);
+                    model.addAttribute("mainSrc", mainImage);
+                    model.addAttribute("list", detailImages);
+                    model.addAttribute("gender",gender);
+                    model.addAttribute("stat",stat);
+                    System.out.println(gender);
+                    Cookie cookie = new Cookie(id.toString(), mainImage);
+                    cookie.setPath("/recently/view");
+                    cookie.setMaxAge(300);
+                    response.addCookie(cookie);
+                } else{
+                    String mainImage = musinWomen.mainSrc(id);
+                    List<MusinsaWomenSubEntity> detailImages = musinWomenSub.subSrc(id);
+                    List<ReviewDto> rDto = rService.getReview(mainImage);
+                    model.addAttribute("review",rDto);
+                    model.addAttribute("mainSrc", mainImage );
+                    model.addAttribute("list", detailImages);
+                    model.addAttribute("gender",gender);
+                    model.addAttribute("stat",stat);
+                    System.out.println(gender);
+                    Cookie cookie = new Cookie(id.toString(), mainImage);
+                    cookie.setPath("/recently/view");
+                    cookie.setMaxAge(300);
+                    response.addCookie(cookie);
+                }
+            }else{
+                System.out.println("steady");
+                if(gender.equals("man")){
+                    String mainSrc = steadyman.mainSrc(id);
+                    List<SubImage> detailImages = crawlingService.detail(id);
+                    List<ReviewDto> rDto = rService.getReview(mainSrc);
+                    model.addAttribute("review",rDto);
+                    model.addAttribute("mainSrc", mainSrc);
+                    model.addAttribute("list", detailImages);
+                    model.addAttribute("gender",gender);
+                    model.addAttribute("stat",stat);
+                    System.out.println(gender);
+                    Cookie cookie = new Cookie(id.toString(), mainSrc);
+                    cookie.setPath("/recently/view");
+                    cookie.setMaxAge(300);
+                    response.addCookie(cookie);
+                } else{
+                    String mainSrc = steadywomen.mainSrc(id);
+                    List<SteadyWomanSubImg> detailImages = WmainService.detail(id);
+                    List<ReviewDto> rDto = rService.getReview(mainSrc);
+                    model.addAttribute("review",rDto);
+                    model.addAttribute("mainSrc", mainSrc);
+                    model.addAttribute("list", detailImages);
+                    model.addAttribute("gender",gender);
+                    model.addAttribute("stat",stat);
+                    System.out.println(gender);
+                    Cookie cookie = new Cookie(id.toString(), mainSrc);
+                    cookie.setPath("/recently/view");
+                    cookie.setMaxAge(300);
+                    response.addCookie(cookie);
+                }
 
+            }
         }
 
 
@@ -646,10 +732,16 @@ public class Controller {//윤서 등장
         }
     }
 
-   @GetMapping("/testURL")
-    public List<OutManImage> testURL(){
-        List<OutManImage> list = outService.allOutSRC();
-
-        return list;
+    @GetMapping("/testURL")
+    public String testURL() throws JsonProcessingException {
+        String weather = weatherServie.main();
+        if(weather.equals("\"Rain\"")){
+            System.out.println(weather);
+        }else{
+            System.out.println("안된다");
+            System.out.println(weather);
+        }
+        return weather;
     }
+
 }

@@ -37,7 +37,7 @@ public class WeatherApiService { //openWeather Api 로직
 
             String url = "https://api.openweathermap.org/data/2.5/weather";
 
-            UriComponents uri = UriComponentsBuilder.fromHttpUrl(url + "?" + "q=Seoul,kr&appid=9f09039e3f7251d24b085929292a0317").build();
+            UriComponents uri = UriComponentsBuilder.fromHttpUrl(url + "?" + "q=Kimhae,kr&appid=9f09039e3f7251d24b085929292a0317").build();
 
             //이 한줄의 코드로 API를 호출해 MAP타입으로 전달 받는다.
             ResponseEntity<Map> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.GET, entity, Map.class);
