@@ -512,12 +512,16 @@ public class Controller {//윤서 등장
             for (int i=0; i<cookies.length; i++){
                 String value = cookies[i].getValue().toString();
                 String string = cookies[i].getName();
+                System.out.println(string);
                 if(value.contains("slowsteadyclub")){
                     Long l = Long.parseLong(string);
                     map.put(l, value);
+
+                }
                 }
             }
-        }
+
+
 
         model.addAttribute("list", map);
 
@@ -714,7 +718,12 @@ public class Controller {//윤서 등장
    }
 
     @GetMapping("/productList/etc")
-    public String productEtc(@PageableDefault(page=0,size=16,direction = Sort.Direction.DESC)Pageable pageable, Model model,String gender){
+    public String productEtc(@PageableDefault(page=0,size=16,direction = Sort.Direction.DESC)Pageable pageable, Model model,String gender,HttpServletRequest request){
+        HttpSession session = request.getSession(false); // session 받아오기
+        if (session != null) {
+            SignUp userInfo = (SignUp) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("memberInfo", userInfo);
+        }
         if(gender.equals("man")){
             List<com.example.weathercodysummer.Entity.MainImage> page = repo.findAll(pageable).getContent();
             model.addAttribute("manProduct",page);

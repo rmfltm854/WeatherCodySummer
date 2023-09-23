@@ -52,7 +52,7 @@ public class EmailServiceImpl implements EmailService{
 
         message.addRecipients(MimeMessage.RecipientType.TO, to);//보내는 대상
         message.setSubject("이메일 인증 테스트");//제목
-
+        //simplemessage html 코드
         String msgg="";
         msgg+= "<div style='margin:20px;'>";
         msgg+= "<h1> 안녕하세요 WeatherCody 입니다. </h1>";
