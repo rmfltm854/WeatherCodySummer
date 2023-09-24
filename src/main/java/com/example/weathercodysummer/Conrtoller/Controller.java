@@ -753,4 +753,8 @@ public class Controller {//윤서 등장
         return weather;
     }
 
+    @GetMapping("/rainMan")
+    public String rainTest(){
+        return "login/rainMan";
+    }
 }
